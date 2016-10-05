@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_sign_up"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="alexparunov.lookaround.accounts.SignUp">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/activity_sign_up_usernameET"
+        android:layout_alignEnd="@+id/activity_sign_up_usernameET"
+        android:layout_marginTop="17dp"
+        android:id="@+id/activity_sign_up_emailET"
+        android:hint="Email" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:layout_below="@+id/activity_sign_up_emailET"
+        android:layout_alignStart="@+id/activity_sign_up_emailET"
+        android:layout_marginTop="15dp"
+        android:id="@+id/activity_sign_up_passwordET"
+        android:hint="Password" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/activity_sign_up_passwordET"
+        android:layout_alignEnd="@+id/activity_sign_up_passwordET"
+        android:layout_marginTop="10dp"
+        android:id="@+id/activity_sign_up_passwordRptET"
+        android:hint="Repeat Password" />
+
+    <Button
+        android:text="Sign Up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/activity_sign_up_passwordRptET"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:id="@+id/activity_sign_up_B" />
+
+    <Button
+        android:text="Cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/activity_sign_up_B"
+        android:layout_alignEnd="@+id/activity_sign_up_B"
+        android:layout_marginTop="12dp"
+        android:id="@+id/activity_sign_up_BCancel" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_marginTop="22dp"
+        android:id="@+id/activity_sign_up_usernameET"
+        android:hint="Username"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>
