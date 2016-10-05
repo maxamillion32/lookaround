@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "614801343155",
+    "firebase_url": "https://lookaround-65914.firebaseio.com",
+    "project_id": "lookaround-65914",
+    "storage_bucket": "lookaround-65914.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:614801343155:android:d6390699dbd7c680",
+        "android_client_info": {
+          "package_name": "alexparunov.lookaround"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "614801343155-av68c6nioqbnbborarif0thru10kss9h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "alexparunov.lookaround",
+            "certificate_hash": "0C2D388216A3B0708F72D664808B524B2FE7DC6B"
+          }
+        },
+        {
+          "client_id": "614801343155-1qrqf0piskkip45h1v4l89s5r9lbdk13.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrFEpSfArBqwftM02nQbpJNwRSw0gDNpE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "614801343155-1qrqf0piskkip45h1v4l89s5r9lbdk13.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,2 +1,6 @@
 /.idea/*
+/.idea/libraries/*.xml
 /.gradle/*
+/*.iml
+/local.properties
+
