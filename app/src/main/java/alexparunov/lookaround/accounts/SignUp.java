@@ -1,11 +1,11 @@
 package alexparunov.lookaround.accounts;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 
 import alexparunov.lookaround.R;
 
-public class SignUp extends AppCompatActivity {
+public class SignUp extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
