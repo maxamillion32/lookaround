@@ -10,16 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="alexparunov.lookaround.accounts.SignUp">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_below="@+id/activity_sign_up_usernameET"
-        android:layout_alignEnd="@+id/activity_sign_up_usernameET"
-        android:layout_marginTop="17dp"
-        android:id="@+id/activity_sign_up_emailET"
-        android:hint="Email" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -28,20 +18,20 @@
         android:ems="10"
         android:layout_below="@+id/activity_sign_up_emailET"
         android:layout_alignStart="@+id/activity_sign_up_emailET"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="18dp"
         android:id="@+id/activity_sign_up_passwordET"
         android:hint="Password" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
         android:ems="10"
         android:layout_below="@+id/activity_sign_up_passwordET"
-        android:layout_alignEnd="@+id/activity_sign_up_passwordET"
-        android:layout_marginTop="10dp"
+        android:layout_alignStart="@+id/activity_sign_up_passwordET"
+        android:layout_marginTop="15dp"
         android:id="@+id/activity_sign_up_passwordRptET"
-        android:hint="Repeat Password" />
+        android:hint="Repeat Password"
+        android:inputType="textPassword" />
 
     <Button
         android:text="Sign Up"
@@ -49,26 +39,28 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/activity_sign_up_passwordRptET"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="18dp"
         android:id="@+id/activity_sign_up_B" />
 
-    <Button
+    <TextView
         android:text="Cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:id="@+id/activity_sign_up_CancelTV"
         android:layout_below="@+id/activity_sign_up_B"
-        android:layout_alignEnd="@+id/activity_sign_up_B"
-        android:layout_marginTop="12dp"
-        android:id="@+id/activity_sign_up_BCancel" />
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp"
+        android:textAlignment="textEnd"
+        android:fontFamily="sans-serif" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
         android:ems="10"
-        android:layout_marginTop="22dp"
-        android:id="@+id/activity_sign_up_usernameET"
-        android:hint="Username"
+        android:layout_marginTop="27dp"
+        android:id="@+id/activity_sign_up_emailET"
+        android:inputType="textEmailAddress"
+        android:hint="Email"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>

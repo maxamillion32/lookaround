@@ -25,10 +25,9 @@ public class MainActivity extends Activity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user != null) {
-                    Log.d("singIn","onAuthStateChanged:signed_in:" + user.getUid());
+                    firebaseAuth.signOut();
+                    Log.d("MA","onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
-                    Log.d("singIn","onAuthStateChanged:signed_in:");
-                    System.out.println(SignIn.class);
                     startActivity(new Intent(MainActivity.this,SignIn.class));
                 }
             }
@@ -47,5 +46,6 @@ public class MainActivity extends Activity {
         if(firebaseAuth != null) {
             firebaseAuth.removeAuthStateListener(authStateListener);
         }
+        finish();
     }
 }
