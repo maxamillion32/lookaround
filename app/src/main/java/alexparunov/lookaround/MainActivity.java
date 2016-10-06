@@ -1,5 +1,9 @@
 package alexparunov.lookaround;
 
+/*
+* This class is playing a role of a router.
+* If user is signed in, it redirects to ,available user, activity.
+* If user is not signed in, it redirects to Sign In activity.*/
 import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -25,7 +29,6 @@ public class MainActivity extends Activity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user != null) {
-                    firebaseAuth.signOut();
                     Log.d("MA","onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
                     startActivity(new Intent(MainActivity.this,SignIn.class));
