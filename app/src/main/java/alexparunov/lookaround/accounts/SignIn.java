@@ -38,9 +38,11 @@ public class SignIn extends Activity implements View.OnClickListener{
         etPassword = (EditText) findViewById(R.id.activity_sign_in_passwordET);
         Button bSignIn = (Button) findViewById(R.id.activity_sign_in_B);
         TextView tvSignUp = (TextView) findViewById(R.id.activity_sign_in_signUpTV);
+        TextView tvForgotPassword = (TextView) findViewById(R.id.activity_sign_in_forgotPasswordTV);
 
         bSignIn.setOnClickListener(this);
         tvSignUp.setOnClickListener(this);
+        tvForgotPassword.setOnClickListener(this);
     }
 
     @Override
@@ -68,6 +70,7 @@ public class SignIn extends Activity implements View.OnClickListener{
                                     Log.w("SI", "signInWithEmail:failed", task.getException());
                                     Toast.makeText(SignIn.this, "Sign In failed. Please check credentials.",
                                             Toast.LENGTH_SHORT).show();
+                                    return;
                                 }
 
                                 /* We start MainActivity Class because this class will redirect
@@ -78,6 +81,9 @@ public class SignIn extends Activity implements View.OnClickListener{
                 break;
             case R.id.activity_sign_in_signUpTV:
                 startActivity(new Intent(SignIn.this,SignUp.class));
+                break;
+            case R.id.activity_sign_in_forgotPasswordTV:
+                startActivity(new Intent(SignIn.this, ForgotPassword.class));
                 break;
         }
     }
@@ -90,7 +96,7 @@ public class SignIn extends Activity implements View.OnClickListener{
     }
 
     /*This is called whenever we click Sign In button
-    and redirection to MainActivity Class is performed*/
+    and redirection to MainActivity,Sign Up or ForgotPassword Class is performed*/
     @Override
     protected void onStop() {
         super.onStop();

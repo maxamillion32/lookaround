@@ -1,6 +1,7 @@
 package alexparunov.lookaround.accounts;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -72,6 +73,7 @@ public class SignUp extends Activity implements View.OnClickListener {
                 });
                 break;
             case R.id.activity_sign_up_CancelTV:
+                startActivity(new Intent(SignUp.this,SignIn.class));
                 finish();
                 break;
         }
