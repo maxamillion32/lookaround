@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import alexparunov.lookaround.accounts.SignIn;
+import alexparunov.lookaround.authenticated.AuthMainActivity;
 
 public class MainActivity extends Activity {
 
@@ -30,6 +31,7 @@ public class MainActivity extends Activity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user != null) {
                     Log.d("MA","onAuthStateChanged:signed_in:" + user.getUid());
+                    startActivity(new Intent(MainActivity.this, AuthMainActivity.class));
                 } else {
                     startActivity(new Intent(MainActivity.this,SignIn.class));
                 }

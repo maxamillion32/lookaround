@@ -19,7 +19,10 @@
         </activity>
         <activity android:name=".accounts.SignIn" />
         <activity android:name=".accounts.SignUp" />
-        <activity android:name=".accounts.ForgotPassword"></activity>
+        <activity android:name=".accounts.ForgotPassword" />
+        <activity
+            android:name=".authenticated.AuthMainActivity"
+            android:label="@string/title_activity_auth_main"></activity>
     </application>
 
 </manifest>

@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import alexparunov.lookaround.MainActivity;
 import alexparunov.lookaround.R;
 import alexparunov.lookaround.accounts.utils.AccountUtils;
+import alexparunov.lookaround.authenticated.AuthMainActivity;
 
 public class SignIn extends Activity implements View.OnClickListener{
 
@@ -75,7 +76,7 @@ public class SignIn extends Activity implements View.OnClickListener{
 
                                 /* We start MainActivity Class because this class will redirect
                                 * us to, available user activity. */
-                                startActivity(new Intent(SignIn.this, MainActivity.class));
+                                startActivity(new Intent(SignIn.this, AuthMainActivity.class));
                             }
                         });
                 break;
