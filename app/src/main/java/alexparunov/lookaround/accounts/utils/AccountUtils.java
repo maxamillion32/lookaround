@@ -6,11 +6,11 @@ import java.util.regex.Pattern;
 
 public class AccountUtils {
 
-    private static boolean isValidEmail(String target) {
+    public static boolean isValidEmail(String target) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
-    private static boolean isValidPassword(String target){
+    public static boolean isValidPassword(String target){
         return Pattern.compile("^[a-zA-Z]\\w{6,18}$").matcher(target).matches();
     }
 

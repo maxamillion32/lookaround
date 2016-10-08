@@ -5,7 +5,8 @@
 
     <string name="drawer_title1">Profile</string>
     <string name="drawer_title2">My Events</string>
-    <string name="drawer_title3">Sign Out</string>
+    <string name="drawer_title3">Settings</string>
+    <string name="drawer_title4">Sign Out</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

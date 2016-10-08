@@ -1,5 +1,6 @@
 package alexparunov.lookaround.authenticated;
 
+import android.app.ActionBar;
 import android.app.Activity;
 
 import android.app.Fragment;
@@ -13,6 +14,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import alexparunov.lookaround.MainActivity;
 import alexparunov.lookaround.R;
+import alexparunov.lookaround.authenticated.fragments.NavigationDrawerFragment;
+import alexparunov.lookaround.authenticated.fragments.ProfileFragment;
 
 public class AuthMainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -25,7 +28,8 @@ public class AuthMainActivity extends Activity
 
     private final int PROFILE_POSITION = 0;
     private final int MY_EVENTS_POSITION = 1;
-    private final int SIGNOUT_POSITION = 2;
+    private final int SETTINGS_POSITION = 2;
+    private final int SIGNOUT_POSITION = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +53,14 @@ public class AuthMainActivity extends Activity
 
         switch (position) {
             case PROFILE_POSITION:
+                mTitle = "Profile";
+                fragment = new ProfileFragment();
                 break;
             case MY_EVENTS_POSITION:
+                mTitle = "My Events";
+                break;
+            case SETTINGS_POSITION:
+                mTitle = "Settings";
                 break;
             case SIGNOUT_POSITION:
                 firebaseAuth.signOut();
@@ -60,6 +70,8 @@ public class AuthMainActivity extends Activity
                 break;
         }
 
+        ActionBar actionBar = getActionBar();
+
         if (fragment != null) {
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -67,6 +79,10 @@ public class AuthMainActivity extends Activity
             transaction.replace(R.id.activity_auth_main_container, fragment);
             transaction.addToBackStack(null);
             transaction.commit();
+
+            if(actionBar != null) {
+                actionBar.setTitle(mTitle);
+            }
         }
 
     }

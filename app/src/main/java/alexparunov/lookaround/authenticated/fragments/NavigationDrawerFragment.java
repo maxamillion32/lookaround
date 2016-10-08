@@ -1,4 +1,4 @@
-package alexparunov.lookaround.authenticated;
+package alexparunov.lookaround.authenticated.fragments;
 
 
 import android.app.Activity;
@@ -106,7 +106,9 @@ public class NavigationDrawerFragment extends Fragment {
                 new String[]{
                         getString(R.string.drawer_title1),
                         getString(R.string.drawer_title2),
-                        getString(R.string.drawer_title3)
+                        getString(R.string.drawer_title3),
+                        getString(R.string.drawer_title4)
+
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
@@ -237,7 +239,7 @@ public class NavigationDrawerFragment extends Fragment {
         // If the drawer is open, show the global app actions in the action bar. See also
         // showGlobalContextActionBar, which controls the top-left area of the action bar.
         if (mDrawerLayout != null && isDrawerOpen()) {
-            inflater.inflate(R.menu.global, menu);
+            //inflater.inflate(R.menu.global, menu);
             showGlobalContextActionBar();
         }
         super.onCreateOptionsMenu(menu, inflater);
