@@ -10,11 +10,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 
-import com.google.android.gms.maps.MapFragment;
 import com.google.firebase.auth.FirebaseAuth;
 
 import alexparunov.lookaround.MainActivity;
 import alexparunov.lookaround.R;
+import alexparunov.lookaround.authenticated.fragments.GMapFragment;
 import alexparunov.lookaround.authenticated.fragments.NavigationDrawerFragment;
 import alexparunov.lookaround.authenticated.fragments.ProfileFragment;
 
@@ -39,9 +39,9 @@ public class AuthMainActivity extends Activity
                 R.id.activity_auth_main_navigation_drawer,
                 (DrawerLayout) findViewById(R.id.activity_auth_main_drawer_layout));
 
-//        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-//        fragmentTransaction.add(R.id.activity_auth_main_container,);
-//        fragmentTransaction.commit();
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.activity_auth_main_container,new GMapFragment());
+        fragmentTransaction.commit();
     }
 
     @Override
