@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 
+import com.google.android.gms.maps.MapFragment;
 import com.google.firebase.auth.FirebaseAuth;
 
 import alexparunov.lookaround.MainActivity;
@@ -37,6 +38,10 @@ public class AuthMainActivity extends Activity
         mNavigationDrawerFragment.setUp(
                 R.id.activity_auth_main_navigation_drawer,
                 (DrawerLayout) findViewById(R.id.activity_auth_main_drawer_layout));
+
+//        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+//        fragmentTransaction.add(R.id.activity_auth_main_container,);
+//        fragmentTransaction.commit();
     }
 
     @Override
