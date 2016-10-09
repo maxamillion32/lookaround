@@ -20,16 +20,8 @@ import alexparunov.lookaround.authenticated.fragments.ProfileFragment;
 public class AuthMainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-
-    private NavigationDrawerFragment mNavigationDrawerFragment;
-
     private CharSequence mTitle;
     private FirebaseAuth firebaseAuth;
-
-    private final int PROFILE_POSITION = 0;
-    private final int MY_EVENTS_POSITION = 1;
-    private final int SETTINGS_POSITION = 2;
-    private final int SIGNOUT_POSITION = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +29,7 @@ public class AuthMainActivity extends Activity
         setContentView(R.layout.activity_auth_main);
         firebaseAuth = FirebaseAuth.getInstance();
 
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
+        NavigationDrawerFragment mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.activity_auth_main_navigation_drawer);
         mTitle = getTitle();
 
@@ -50,6 +42,11 @@ public class AuthMainActivity extends Activity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         Fragment fragment = null;
+
+        final int PROFILE_POSITION = 0;
+        final int MY_EVENTS_POSITION = 1;
+        final int SETTINGS_POSITION = 2;
+        final int SIGNOUT_POSITION = 3;
 
         switch (position) {
             case PROFILE_POSITION:
@@ -64,6 +61,7 @@ public class AuthMainActivity extends Activity
                 break;
             case SIGNOUT_POSITION:
                 firebaseAuth.signOut();
+                finish();
                 startActivity(new Intent(AuthMainActivity.this, MainActivity.class));
                 break;
             default:

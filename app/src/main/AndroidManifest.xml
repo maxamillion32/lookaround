@@ -22,7 +22,7 @@
         <activity android:name=".accounts.ForgotPassword" />
         <activity
             android:name=".authenticated.AuthMainActivity"
-            android:label="@string/title_activity_auth_main"></activity>
+            android:label="@string/title_activity_auth_main" />
     </application>
 
 </manifest>
