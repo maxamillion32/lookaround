@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,12 +22,18 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
 
 import alexparunov.lookaround.R;
+import alexparunov.lookaround.authenticated.utils.DBConstants;
+import alexparunov.lookaround.events.Event;
 import alexparunov.lookaround.events.Time;
 
 
@@ -34,13 +41,14 @@ public class GMapFragment extends MapFragment implements GoogleMap.OnMapLongClic
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
+    private DatabaseReference DBReferenceEvents;
 
     private EditText etTitle;
     private EditText etDescription;
     private TextView tvTimeStart;
     private TextView tvTimeEnd;
 
-    private String category = "";
+    private String tag = "";
     private String title = "";
     private String description = "";
     private Time timeStart = new Time();
@@ -54,6 +62,8 @@ public class GMapFragment extends MapFragment implements GoogleMap.OnMapLongClic
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
+        DBReferenceEvents = FirebaseDatabase.getInstance().getReference().child(DBConstants.DB_CHILD_EVENTS);
+
     }
 
     OnMapReadyCallback onMapReadyCallback = new OnMapReadyCallback() {
@@ -92,7 +102,10 @@ public class GMapFragment extends MapFragment implements GoogleMap.OnMapLongClic
         showInputDialog(latLng);
     }
 
-    private void showInputDialog(LatLng latLng) {
+    private void showInputDialog(final LatLng latLng) {
+        isStartTimeSet = false;
+        isEndTimeSet = false;
+
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         View promtView = layoutInflater.inflate(R.layout.fragment_gmap_input_dialog,null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
@@ -114,7 +127,7 @@ public class GMapFragment extends MapFragment implements GoogleMap.OnMapLongClic
 
                 //We have Category... string here
                 if(position != 0)
-                    category = parent.getSelectedItem().toString().trim();
+                    tag = parent.getSelectedItem().toString().trim();
             }
 
             @Override
@@ -177,18 +190,38 @@ public class GMapFragment extends MapFragment implements GoogleMap.OnMapLongClic
                             return;
                         }
 
-                        isStartTimeSet = false;
-                        isEndTimeSet = false;
                         title = etTitle.getText().toString().trim();
                         description = etDescription.getText().toString().trim();
+
+                        if(title.isEmpty()) {
+                            Toast.makeText(getContext(),"Title is required",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        if(!isStartTimeSet || !isEndTimeSet) {
+                            Toast.makeText(getContext(),"Starting and ending time are required",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        if(firebaseUser == null) {
+                            return;
+                        }
+
+                        Event event = new Event(latLng, timeStart, timeEnd, title,
+                                description, tag, firebaseUser);
+
+                        DBReferenceEvents.push().setValue(event)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        Toast.makeText(getActivity(),"Event was successfully inserted", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        isStartTimeSet = false;
-                        isEndTimeSet = false;
-
                         dialog.cancel();
                     }
                 });

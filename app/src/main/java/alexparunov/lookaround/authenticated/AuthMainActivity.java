@@ -25,6 +25,7 @@ public class AuthMainActivity extends AppCompatActivity {
     private CharSequence mTitle;
     private FirebaseAuth firebaseAuth;
     private DrawerLayout drawer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +33,8 @@ public class AuthMainActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         initializeWidgets();
+
+        setTitle("Events Nearby");
 
         Fragment mFragment = getFragmentManager().findFragmentById(R.id.activity_auth_main_drawer_layout);
         if(!(mFragment instanceof GMapFragment)) {
@@ -84,7 +87,6 @@ public class AuthMainActivity extends AppCompatActivity {
                 transaction.replace(R.id.activity_auth_main_container, fragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
-                setTitle(mTitle);
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
             }
