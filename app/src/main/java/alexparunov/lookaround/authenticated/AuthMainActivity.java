@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,9 +34,12 @@ public class AuthMainActivity extends AppCompatActivity {
 
         initializeWidgets();
 
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.activity_auth_main_container,new GMapFragment());
-        fragmentTransaction.commit();
+        Fragment mFragment = getFragmentManager().findFragmentById(R.id.activity_auth_main_drawer_layout);
+        if(!(mFragment instanceof GMapFragment)) {
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.add(R.id.activity_auth_main_container, new GMapFragment());
+            fragmentTransaction.commit();
+        }
     }
 
     private void initializeWidgets() {
@@ -67,6 +71,7 @@ public class AuthMainActivity extends AppCompatActivity {
                 case R.id.menu_nav_signout:
                     firebaseAuth.signOut();
                     finish();
+                    getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.activity_auth_main_container)).commit();
                     startActivity(new Intent(AuthMainActivity.this, MainActivity.class));
                     break;
                 default:
