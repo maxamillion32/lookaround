@@ -1,50 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center">
+    android:layout_height="match_parent">
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/fragment_gmap_input_dialog_TitleET"
+        android:inputType="textMultiLine"
         android:ems="10"
-        android:hint="Title"/>
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_gmap_input_dialog_TitleET"
+        android:layout_alignStart="@+id/fragment_gmap_input_dialog_TitleET"
+        android:layout_marginTop="12dp"
         android:id="@+id/fragment_gmap_input_dialog_DescriptionET"
-        android:ems="10"
         android:hint="Description" />
 
-    <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:ems="10"-->
-        <!--android:text="Time Start"/>-->
+    <TextView
+        android:text="Starting Time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_gmap_input_dialog_DescriptionET"
+        android:layout_alignStart="@+id/fragment_gmap_input_dialog_DescriptionET"
+        android:layout_marginTop="14dp"
+        android:id="@+id/fragment_gmap_input_dialog_TimeStartTV"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif" />
 
-    <!--<TimePicker-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/fragment_gmap_input_dialog_TimeStartTP" />-->
-
-    <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:ems="10"-->
-        <!--android:text="Time End"/>-->
-
-    <!--<TimePicker-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/fragment_gmap_input_dialog_TimeEndTP" />-->
+    <TextView
+        android:text="Ending Time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_gmap_input_dialog_TimeStartTV"
+        android:layout_alignStart="@+id/fragment_gmap_input_dialog_TimeStartTV"
+        android:layout_marginTop="21dp"
+        android:id="@+id/fragment_gmap_input_dialog_TimeEndTV"
+        android:textSize="20sp" />
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
         android:id="@+id/fragment_gmap_input_dialog_TagsSpinner"
-        android:entries="@array/event_tags"/>
-</LinearLayout>
+        android:entries="@array/event_tags"
+        android:layout_below="@+id/fragment_gmap_input_dialog_TimeEndTV"
+        android:layout_alignStart="@+id/fragment_gmap_input_dialog_TimeEndTV" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/fragment_gmap_input_dialog_TitleET"
+        android:hint="Title"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp" />
+</RelativeLayout>

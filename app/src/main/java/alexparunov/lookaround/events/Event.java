@@ -5,10 +5,14 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Date;
 
+
+
 public class Event {
+
+
     private LatLng coordinates;
-    private Date startTime;
-    private Date endTime;
+    private Time startTime;
+    private Time endTime;
     private String title;
     private String description;
     private String tag;
@@ -16,7 +20,7 @@ public class Event {
 
     public Event() {}
 
-    public Event(LatLng coordinates, Date startTime, Date endTime, String title,
+    public Event(LatLng coordinates, Time startTime, Time endTime, String title,
                  String description, String tag, FirebaseUser createdBy) {
         this.coordinates = coordinates;
         this.startTime = startTime;
@@ -34,19 +38,19 @@ public class Event {
         this.coordinates = coordinates;
     }
 
-    public Date getStartTime() {
+    public Time getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(Time startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public Time getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(Time endTime) {
         this.endTime = endTime;
     }
 
