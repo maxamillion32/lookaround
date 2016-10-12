@@ -1,7 +1,9 @@
 package alexparunov.lookaround.authenticated.fragments;
 
-import android.app.ActionBar;
-import android.util.Log;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -12,8 +14,10 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import alexparunov.lookaround.R;
 
-public class GMapFragment extends MapFragment {
+
+public class GMapFragment extends MapFragment implements GoogleMap.OnMapLongClickListener {
 
     OnMapReadyCallback onMapReadyCallback = new OnMapReadyCallback() {
         @Override
@@ -41,16 +45,38 @@ public class GMapFragment extends MapFragment {
             CameraUpdate cameraPosition = CameraUpdateFactory.newLatLngZoom(new LatLng(42.0209,23.0943), 15);
             map.moveCamera(cameraPosition);
             map.animateCamera(cameraPosition);
+
+            map.setOnMapLongClickListener(this);
         }
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onMapLongClick(LatLng latLng) {
+        showInputDialog();
+    }
 
-        ActionBar actionBar = getActivity().getActionBar();
-        if(actionBar != null) {
-            actionBar.setTitle("Events Nearby");
-        }
+    private void showInputDialog() {
+        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+        View promtView = layoutInflater.inflate(R.layout.fragment_gmap_input_dialog,null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+        alertDialogBuilder.setView(promtView);
+        alertDialogBuilder.setTitle("New Event");
+
+        alertDialogBuilder.setCancelable(false)
+                .setPositiveButton("Create Event", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 }
