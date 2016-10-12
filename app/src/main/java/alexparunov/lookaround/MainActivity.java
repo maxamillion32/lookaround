@@ -4,10 +4,10 @@ package alexparunov.lookaround;
 * This class is playing a role of a router.
 * If user is signed in, it redirects to ,available user, activity.
 * If user is not signed in, it redirects to Sign In activity.*/
-import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,7 +16,7 @@ import com.google.firebase.auth.FirebaseUser;
 import alexparunov.lookaround.accounts.SignIn;
 import alexparunov.lookaround.authenticated.AuthMainActivity;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
     FirebaseAuth.AuthStateListener authStateListener;
