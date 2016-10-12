@@ -20,52 +20,31 @@
         android:ems="10"
         android:hint="Description" />
 
-    <TextView
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:ems="10"-->
+        <!--android:text="Time Start"/>-->
+
+    <!--<TimePicker-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/fragment_gmap_input_dialog_TimeStartTP" />-->
+
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:ems="10"-->
+        <!--android:text="Time End"/>-->
+
+    <!--<TimePicker-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/fragment_gmap_input_dialog_TimeEndTP" />-->
+
+    <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:text="Time Start"/>
-
-    <TimePicker
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/fragment_gmap_input_dialog_TimeStartTP" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:text="Time End"/>
-
-    <TimePicker
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/fragment_gmap_input_dialog_TimeEndTP" />
-
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/fragment_gmap_input_dialog_Rg"
-        android:ems="10">
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/fragment_gmap_input_dialog_RbEntertainment"
-            android:text="Entertainment"/>
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/fragment_gmap_input_dialog_RbMusic"
-            android:text="Music"/>
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/fragment_gmap_input_dialog_RbPromotions"
-            android:text="Promotions"/>
-    </RadioGroup>
-
+        android:id="@+id/fragment_gmap_input_dialog_TagsSpinner"
+        android:entries="@array/event_tags"/>
 </LinearLayout>

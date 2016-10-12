@@ -3,15 +3,14 @@
     <string name="sign_in">Sign In</string>
     <string name="title_activity_auth_main">AuthMainActivity</string>
 
-    <string name="drawer_title1">Profile</string>
-    <string name="drawer_title2">My Events</string>
-    <string name="drawer_title3">Settings</string>
-    <string name="drawer_title4">Sign Out</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_example">Example action</string>
+    <string-array name="event_tags">
+        <item>Category...</item>
+        <item>Entertainment</item>
+        <item>Music</item>
+        <item>Promotions</item>
+    </string-array>
 
-    <string name="action_settings">Settings</string>
 </resources>

@@ -61,15 +61,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         etPassword = (EditText) view.findViewById(R.id.fragment_profile_passwordET);
         Button bSubmit = (Button) view.findViewById(R.id.fragment_profile_submitB);
 
-        if(etFullName != null & etEmail != null) {
-            if(fullName != null)
-                etFullName.setText(fullName);
-            if(email != null)
-                etEmail.setText(email);
-        }
-        if(bSubmit != null) {
-            bSubmit.setOnClickListener(this);
-        }
+
+        if(fullName != null)
+            etFullName.setText(fullName);
+        if(email != null)
+            etEmail.setText(email);
+
+        bSubmit.setOnClickListener(this);
 
     }
 
