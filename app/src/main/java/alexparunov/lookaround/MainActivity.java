@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         if(!sharedPreferences.getBoolean(ARE_ALL_PERMISSIONS_GRANTED,false)) {
             askForPermissions();
         }
-        
+
         boolean allPermissionsGranted = sharedPreferences.getBoolean(ARE_ALL_PERMISSIONS_GRANTED,false);
 
         if(!allPermissionsGranted) {

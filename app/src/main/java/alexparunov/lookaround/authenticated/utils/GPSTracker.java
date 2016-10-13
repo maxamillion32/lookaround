@@ -15,7 +15,6 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 
 public class GPSTracker extends Service implements LocationListener {
 
@@ -82,6 +81,7 @@ public class GPSTracker extends Service implements LocationListener {
                     if (locationManager != null) {
                         location = locationManager
                                 .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
                         if (location != null) {
                             latitude = location.getLatitude();
                             longitude = location.getLongitude();
@@ -94,7 +94,7 @@ public class GPSTracker extends Service implements LocationListener {
         }
 
         return location;
-    }
+}
 
     public double getLatitude() {
         if(location != null) {
