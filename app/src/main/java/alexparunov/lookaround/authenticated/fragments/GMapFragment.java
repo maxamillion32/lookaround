@@ -51,7 +51,7 @@ public class GMapFragment extends MapFragment {
     OnMapReadyCallback onMapReadyCallback = new OnMapReadyCallback() {
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            MapUtils mapUtils = new MapUtils();
+            MapUtils mapUtils = new MapUtils(getContext());
             mapUtils.initializeMapUI(googleMap);
             mapUtils.initializeMarkers(googleMap);
 
