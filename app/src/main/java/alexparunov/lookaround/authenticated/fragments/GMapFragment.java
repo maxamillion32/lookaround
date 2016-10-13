@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,36 +13,21 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
 import java.util.Date;
 
 import alexparunov.lookaround.R;
-import alexparunov.lookaround.authenticated.utils.DBConstants;
+import alexparunov.lookaround.authenticated.utils.MapUtils;
 import alexparunov.lookaround.events.Event;
+import alexparunov.lookaround.events.utils.FireBaseDB;
 import alexparunov.lookaround.events.Time;
-import alexparunov.lookaround.events.User;
 
-
-public class GMapFragment extends MapFragment implements GoogleMap.OnMapLongClickListener {
-
-    private FirebaseAuth firebaseAuth;
-    private FirebaseUser firebaseUser;
-    private DatabaseReference DBReferenceEventsUser;
+public class GMapFragment extends MapFragment {
 
     private EditText etTitle;
     private EditText etDescription;
@@ -62,47 +46,26 @@ public class GMapFragment extends MapFragment implements GoogleMap.OnMapLongClic
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
-        DBReferenceEventsUser = FirebaseDatabase.getInstance()
-                .getReference().child(DBConstants.DB_CHILD_EVENTS).child(firebaseUser.getUid());
-
     }
 
     OnMapReadyCallback onMapReadyCallback = new OnMapReadyCallback() {
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            initializeMarkers(googleMap);
-            initializeMapUI(googleMap);
+            MapUtils mapUtils = new MapUtils();
+            mapUtils.initializeMapUI(googleMap);
+            mapUtils.initializeMarkers(googleMap);
+
+            googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+                @Override
+                public void onMapLongClick(LatLng latLng) {
+                    showInputDialog(latLng);
+                }
+            });
         }
     };
 
     public GMapFragment() {
         getMapAsync(onMapReadyCallback);
-    }
-
-    private void initializeMarkers(GoogleMap map) {
-            map.addMarker(new MarkerOptions()
-                    .position(new LatLng(42.0209, 23.0943))
-                    .title("Marker"));
-    }
-
-    private void initializeMapUI(GoogleMap map) {
-        if(map != null) {
-            UiSettings uiSettings = map.getUiSettings();
-            uiSettings.setZoomControlsEnabled(true);
-
-            CameraUpdate cameraPosition = CameraUpdateFactory.newLatLngZoom(new LatLng(42.0209,23.0943), 15);
-            map.moveCamera(cameraPosition);
-            map.animateCamera(cameraPosition);
-
-            map.setOnMapLongClickListener(this);
-        }
-    }
-
-    @Override
-    public void onMapLongClick(LatLng latLng) {
-        showInputDialog(latLng);
     }
 
     private void showInputDialog(final LatLng latLng) {
@@ -176,7 +139,7 @@ public class GMapFragment extends MapFragment implements GoogleMap.OnMapLongClic
                         isEndTimeSet = true;
                         tvTimeEnd.setText("Ending time - "+ timeEnd.toString());
                     }
-                },hour,minutes,true);
+                },hour+1,minutes,true);
 
                 timePicker.setTitle("End Time");
                 timePicker.show();
@@ -201,32 +164,17 @@ public class GMapFragment extends MapFragment implements GoogleMap.OnMapLongClic
                             return;
                         }
 
-                        if(!isStartTimeSet || !isEndTimeSet) {
-                            Toast.makeText(getContext(),"Starting and ending time are required",Toast.LENGTH_SHORT).show();
+                        if(!isStartTimeSet) {
+                            Toast.makeText(getContext(),"Starting time is required",Toast.LENGTH_SHORT).show();
                             return;
                         }
-
-                        if(firebaseUser == null) {
-                            return;
-                        }
-
-                        User user = new User();
-                        user.setEmail(firebaseUser.getEmail());
-                        if(firebaseUser.getDisplayName() != null) {
-                            user.setName(firebaseUser.getDisplayName());
-                        }
-                        user.setUserId(firebaseUser.getUid());
 
                         Event event = new Event(latLng, timeStart, timeEnd, title,
-                                description, tag, new Date() ,user);
+                                description, tag, new Date());
 
-                        DBReferenceEventsUser.push().setValue(event)
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        Toast.makeText(getActivity(),"Event was successfully inserted", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                        FireBaseDB fireBaseDB = new FireBaseDB();
+                        fireBaseDB.insertEvent(getActivity(),event);
+
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

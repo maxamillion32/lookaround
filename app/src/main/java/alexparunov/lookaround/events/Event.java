@@ -14,10 +14,11 @@ public class Event {
     private String tag;
     private User createdBy;
     private Date createdAt;
+
     public Event() {}
 
     public Event(LatLng coordinates, Time startTime, Time endTime, String title,
-                 String description, String tag, Date createdAt,User createdBy) {
+                 String description, String tag, Date createdAt) {
         this.coordinates = coordinates;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -25,7 +26,6 @@ public class Event {
         this.description = description;
         this.tag = tag;
         this.createdAt = createdAt;
-        this.createdBy = createdBy;
     }
     public LatLng getCoordinates() {
         return coordinates;
