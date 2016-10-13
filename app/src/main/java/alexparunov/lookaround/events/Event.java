@@ -2,6 +2,8 @@ package alexparunov.lookaround.events;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.Date;
+
 public class Event {
 
     private LatLng coordinates;
@@ -11,17 +13,18 @@ public class Event {
     private String description;
     private String tag;
     private User createdBy;
-
+    private Date createdAt;
     public Event() {}
 
     public Event(LatLng coordinates, Time startTime, Time endTime, String title,
-                 String description, String tag, User createdBy) {
+                 String description, String tag, Date createdAt,User createdBy) {
         this.coordinates = coordinates;
         this.startTime = startTime;
         this.endTime = endTime;
         this.title = title;
         this.description = description;
         this.tag = tag;
+        this.createdAt = createdAt;
         this.createdBy = createdBy;
     }
     public LatLng getCoordinates() {
@@ -79,4 +82,8 @@ public class Event {
     public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
     }
+
+    public Date getCreatedAt() { return createdAt; }
+
+    public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
 }

@@ -30,6 +30,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import alexparunov.lookaround.R;
 import alexparunov.lookaround.authenticated.utils.DBConstants;
@@ -217,7 +218,7 @@ public class GMapFragment extends MapFragment implements GoogleMap.OnMapLongClic
                         user.setUserId(firebaseUser.getUid());
 
                         Event event = new Event(latLng, timeStart, timeEnd, title,
-                                description, tag, user);
+                                description, tag, new Date() ,user);
 
                         DBReferenceEventsUser.push().setValue(event)
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
