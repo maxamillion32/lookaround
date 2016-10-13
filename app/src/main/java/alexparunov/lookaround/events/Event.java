@@ -1,14 +1,8 @@
 package alexparunov.lookaround.events;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Date;
-
-
 
 public class Event {
-
 
     private LatLng coordinates;
     private Time startTime;
@@ -16,12 +10,12 @@ public class Event {
     private String title;
     private String description;
     private String tag;
-    private FirebaseUser createdBy;
+    private User createdBy;
 
     public Event() {}
 
     public Event(LatLng coordinates, Time startTime, Time endTime, String title,
-                 String description, String tag, FirebaseUser createdBy) {
+                 String description, String tag, User createdBy) {
         this.coordinates = coordinates;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -78,11 +72,11 @@ public class Event {
         this.tag = tag;
     }
 
-    public FirebaseUser getCreatedBy() {
+    public User getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(FirebaseUser createdBy) {
+    public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
     }
 }

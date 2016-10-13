@@ -35,13 +35,14 @@ import alexparunov.lookaround.R;
 import alexparunov.lookaround.authenticated.utils.DBConstants;
 import alexparunov.lookaround.events.Event;
 import alexparunov.lookaround.events.Time;
+import alexparunov.lookaround.events.User;
 
 
 public class GMapFragment extends MapFragment implements GoogleMap.OnMapLongClickListener {
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
-    private DatabaseReference DBReferenceEvents;
+    private DatabaseReference DBReferenceEventsUser;
 
     private EditText etTitle;
     private EditText etDescription;
@@ -62,7 +63,8 @@ public class GMapFragment extends MapFragment implements GoogleMap.OnMapLongClic
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
-        DBReferenceEvents = FirebaseDatabase.getInstance().getReference().child(DBConstants.DB_CHILD_EVENTS);
+        DBReferenceEventsUser = FirebaseDatabase.getInstance()
+                .getReference().child(DBConstants.DB_CHILD_EVENTS).child(firebaseUser.getUid());
 
     }
 
@@ -207,10 +209,17 @@ public class GMapFragment extends MapFragment implements GoogleMap.OnMapLongClic
                             return;
                         }
 
-                        Event event = new Event(latLng, timeStart, timeEnd, title,
-                                description, tag, firebaseUser);
+                        User user = new User();
+                        user.setEmail(firebaseUser.getEmail());
+                        if(firebaseUser.getDisplayName() != null) {
+                            user.setName(firebaseUser.getDisplayName());
+                        }
+                        user.setUserId(firebaseUser.getUid());
 
-                        DBReferenceEvents.push().setValue(event)
+                        Event event = new Event(latLng, timeStart, timeEnd, title,
+                                description, tag, user);
+
+                        DBReferenceEventsUser.push().setValue(event)
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
