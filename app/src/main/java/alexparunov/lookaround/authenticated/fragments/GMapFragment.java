@@ -212,6 +212,7 @@ public class GMapFragment extends MapFragment {
 
             if (fireBaseDB != null) {
               fireBaseDB.insertEvent(getActivity(), event);
+              getMapAsync(onMapReadyCallback);
             }
           }
         })

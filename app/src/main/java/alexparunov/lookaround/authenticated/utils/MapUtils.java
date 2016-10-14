@@ -12,10 +12,13 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
 import java.util.HashMap;
 
+import alexparunov.lookaround.R;
 import alexparunov.lookaround.events.Event;
 
 public class MapUtils {
@@ -79,14 +82,67 @@ public class MapUtils {
     googleMap.animateCamera(cameraPosition);
 
     googleMap.setOnMarkerClickListener(new OnMarkerClickListener());
+    googleMap.setInfoWindowAdapter(new InfoWindowAdapter());
   }
 
   private class OnMarkerClickListener implements GoogleMap.OnMarkerClickListener {
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-      Log.d("MAPUTILS", marker.getTag().toString());
+      marker.showInfoWindow();
       return false;
+    }
+  }
+
+  private class InfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+    private View infoWindowView;
+
+    InfoWindowAdapter() {
+      if (context != null) {
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        infoWindowView = layoutInflater.inflate(R.layout.fragment_gmap_info_window, null);
+      }
+    }
+
+    @Override
+    public View getInfoWindow(Marker marker) {
+      Event event = (Event) marker.getTag();
+      if(event == null) {
+        return null;
+      }
+      if (infoWindowView == null) {
+        return null;
+      }
+
+      final TextView tvTitle = (TextView) infoWindowView.findViewById(R.id.fragment_gmap_info_window_TitleTV);
+      final TextView tvDescription = (TextView) infoWindowView.findViewById(R.id.fragment_gmap_info_window_DescriptionTV);
+      final TextView tvTimes = (TextView) infoWindowView.findViewById(R.id.fragment_gmap_info_window_TimesTV);
+
+      if (tvTitle == null || tvDescription == null || tvTimes == null) {
+        return null;
+      }
+
+      final String title = event.getTitle();
+      final String description = event.getDescription();
+      String times = event.getStartTime().toString() + " - ";
+      if(event.getEndTime().getHours() != 0 && event.getEndTime().getMinutes() != 0) {
+        times = event.getStartTime().toString() + " - " + event.getEndTime().toString();
+      }
+
+      tvTitle.setText(title);
+      tvDescription.setText(description);
+      tvTimes.setText(times);
+
+      return infoWindowView;
+    }
+
+    @Override
+    public View getInfoContents(Marker marker) {
+      if (marker != null && marker.isInfoWindowShown()) {
+        marker.hideInfoWindow();
+        marker.showInfoWindow();
+      }
+      return null;
     }
   }
 }

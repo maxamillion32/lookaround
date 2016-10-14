@@ -44,7 +44,7 @@ public class FireBaseDB {
         .addOnCompleteListener(new OnCompleteListener<Void>() {
           @Override
           public void onComplete(@NonNull Task<Void> task) {
-            Toast.makeText(activity, "Event was successfully inserted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, "Event was successfully created!", Toast.LENGTH_SHORT).show();
           }
         });
   }
