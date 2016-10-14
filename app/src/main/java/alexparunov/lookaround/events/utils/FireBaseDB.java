@@ -2,47 +2,28 @@ package alexparunov.lookaround.events.utils;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import alexparunov.lookaround.events.Event;
 import alexparunov.lookaround.events.User;
 
 public class FireBaseDB {
 
-    private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     private DatabaseReference DBReferenceEventsUser;
 
     public FireBaseDB() {
-        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         DBReferenceEventsUser = FirebaseDatabase.getInstance().getReference()
                 .child(DBConstants.DB_CHILD_EVENTS).child(firebaseUser.getUid());
-
-        DBReferenceEventsUser.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot eventSnapshot: dataSnapshot.getChildren()) {
-                    Event event = eventSnapshot.getValue(Event.class);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("FBDB",databaseError.getMessage());
-            }
-        });
     }
 
     public void insertEvent(final Activity activity, Event event) {

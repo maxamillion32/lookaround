@@ -1,5 +1,5 @@
 package alexparunov.lookaround.events.utils;
 
-final class DBConstants {
-    static final String DB_CHILD_EVENTS = "events";
+public final class DBConstants {
+    public static final String DB_CHILD_EVENTS = "events";
 }
