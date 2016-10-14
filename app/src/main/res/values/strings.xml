@@ -1,16 +1,16 @@
 <resources>
-    <string name="app_name">LookAround</string>
-    <string name="sign_in">Sign In</string>
-    <string name="title_activity_auth_main">AuthMainActivity</string>
+  <string name="app_name">LookAround</string>
+  <string name="sign_in">Sign In</string>
+  <string name="title_activity_auth_main">AuthMainActivity</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+  <string name="navigation_drawer_open">Open navigation drawer</string>
+  <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string-array name="event_tags">
-        <item>Category...</item>
-        <item>Entertainment</item>
-        <item>Music</item>
-        <item>Promotions</item>
-    </string-array>
+  <string-array name="event_tags">
+    <item>Category...</item>
+    <item>Entertainment</item>
+    <item>Music</item>
+    <item>Promotions</item>
+  </string-array>
 
 </resources>

@@ -4,97 +4,103 @@ import java.util.Date;
 
 public class Event {
 
-    private Coordinates coordinates;
-    private Time startTime;
-    private Time endTime;
-    private String title;
-    private String description;
-    private String tag;
-    private User createdBy;
-    private Date createdAt;
+  private Coordinates coordinates;
+  private Time startTime;
+  private Time endTime;
+  private String title;
+  private String description;
+  private String tag;
+  private User createdBy;
+  private Date createdAt;
 
-    public Event() {}
+  public Event() {
+  }
 
-    public Event(Coordinates coordinates, Time startTime, Time endTime, String title,
-                 String description, String tag, Date createdAt) {
-        this.coordinates = coordinates;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.title = title;
-        this.description = description;
-        this.tag = tag;
-        this.createdAt = createdAt;
-    }
-    public Coordinates getCoordinates() {
-        return coordinates;
-    }
+  public Event(Coordinates coordinates, Time startTime, Time endTime, String title,
+               String description, String tag, Date createdAt) {
+    this.coordinates = coordinates;
+    this.startTime = startTime;
+    this.endTime = endTime;
+    this.title = title;
+    this.description = description;
+    this.tag = tag;
+    this.createdAt = createdAt;
+  }
 
-    public void setCoordinates(Coordinates coordinates) {
-        this.coordinates = coordinates;
-    }
+  public Coordinates getCoordinates() {
+    return coordinates;
+  }
 
-    public Time getStartTime() {
-        return startTime;
-    }
+  public void setCoordinates(Coordinates coordinates) {
+    this.coordinates = coordinates;
+  }
 
-    public void setStartTime(Time startTime) {
-        this.startTime = startTime;
-    }
+  public Time getStartTime() {
+    return startTime;
+  }
 
-    public Time getEndTime() {
-        return endTime;
-    }
+  public void setStartTime(Time startTime) {
+    this.startTime = startTime;
+  }
 
-    public void setEndTime(Time endTime) {
-        this.endTime = endTime;
-    }
+  public Time getEndTime() {
+    return endTime;
+  }
 
-    public String getTitle() {
-        return title;
-    }
+  public void setEndTime(Time endTime) {
+    this.endTime = endTime;
+  }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public String getTag() {
-        return tag;
-    }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
+  public String getTag() {
+    return tag;
+  }
 
-    public User getCreatedBy() {
-        return createdBy;
-    }
+  public void setTag(String tag) {
+    this.tag = tag;
+  }
 
-    public void setCreatedBy(User createdBy) {
-        this.createdBy = createdBy;
-    }
+  public User getCreatedBy() {
+    return createdBy;
+  }
 
-    public Date getCreatedAt() { return createdAt; }
+  public void setCreatedBy(User createdBy) {
+    this.createdBy = createdBy;
+  }
 
-    public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
+  public Date getCreatedAt() {
+    return createdAt;
+  }
 
-    @Override
-    public String toString() {
-        return
-                "Coordinates:\n"+this.coordinates.toString()+"\n"+
-                "Title: "+this.title+"\n"+
-                "Description: "+this.description+"\n"+
-                "Tag: "+this.tag+"\n"+
-                "Starting time: "+this.startTime.toString()+"\n"+
-                "Ending time: "+this.endTime.toString()+"\n"+
-                "Created at: "+this.createdAt.toString()+"\n"+
-                "Created by:\n"+this.createdBy.toString()+"\n";
-    }
+  public void setCreatedAt(Date createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  @Override
+  public String toString() {
+    return
+        "Coordinates:\n" + this.coordinates.toString() + "\n" +
+            "Title: " + this.title + "\n" +
+            "Description: " + this.description + "\n" +
+            "Tag: " + this.tag + "\n" +
+            "Starting time: " + this.startTime.toString() + "\n" +
+            "Ending time: " + this.endTime.toString() + "\n" +
+            "Created at: " + this.createdAt.toString() + "\n" +
+            "Created by:\n" + this.createdBy.toString() + "\n";
+  }
 }
