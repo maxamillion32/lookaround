@@ -1,12 +1,10 @@
 package alexparunov.lookaround.events;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import java.util.Date;
 
 public class Event {
 
-    private LatLng coordinates;
+    private Coordinates coordinates;
     private Time startTime;
     private Time endTime;
     private String title;
@@ -17,7 +15,7 @@ public class Event {
 
     public Event() {}
 
-    public Event(LatLng coordinates, Time startTime, Time endTime, String title,
+    public Event(Coordinates coordinates, Time startTime, Time endTime, String title,
                  String description, String tag, Date createdAt) {
         this.coordinates = coordinates;
         this.startTime = startTime;
@@ -27,11 +25,11 @@ public class Event {
         this.tag = tag;
         this.createdAt = createdAt;
     }
-    public LatLng getCoordinates() {
+    public Coordinates getCoordinates() {
         return coordinates;
     }
 
-    public void setCoordinates(LatLng coordinates) {
+    public void setCoordinates(Coordinates coordinates) {
         this.coordinates = coordinates;
     }
 
@@ -86,4 +84,17 @@ public class Event {
     public Date getCreatedAt() { return createdAt; }
 
     public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
+
+    @Override
+    public String toString() {
+        return
+                "Coordinates:\n"+this.coordinates.toString()+"\n"+
+                "Title: "+this.title+"\n"+
+                "Description: "+this.description+"\n"+
+                "Tag: "+this.tag+"\n"+
+                "Starting time: "+this.startTime.toString()+"\n"+
+                "Ending time: "+this.endTime.toString()+"\n"+
+                "Created at: "+this.createdAt.toString()+"\n"+
+                "Created by:\n"+this.createdBy.toString()+"\n";
+    }
 }

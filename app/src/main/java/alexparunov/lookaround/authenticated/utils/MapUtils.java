@@ -34,7 +34,7 @@ public class MapUtils {
     }
 
     public void initializeMarkers(GoogleMap googleMap) {
-
+        //User location
         if(latitude != 0 && longitude != 0) {
             googleMap.addMarker(new MarkerOptions()
                     .position(new LatLng(latitude, longitude))
@@ -53,14 +53,11 @@ public class MapUtils {
         uiSettings.setZoomControlsEnabled(true);
         uiSettings.setMyLocationButtonEnabled(true);
 
-        CameraUpdate cameraPosition = null;
-
-        if(latitude != 0 && longitude != 0) {
-            cameraPosition = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15);
-        }
-        if(cameraPosition == null) {
+        if(latitude == 0 && longitude == 0) {
             return;
         }
+
+        CameraUpdate cameraPosition = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15);
         googleMap.moveCamera(cameraPosition);
         googleMap.animateCamera(cameraPosition);
 

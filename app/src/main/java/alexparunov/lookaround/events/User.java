@@ -37,4 +37,9 @@ public class User {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+    @Override
+    public String toString() {
+        return "  Name: "+this.name+"\n"+"  Email: "+this.email+"\n"+"  UserId: "+this.userId;
+    }
 }

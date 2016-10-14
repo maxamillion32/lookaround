@@ -24,6 +24,7 @@ import java.util.Date;
 import alexparunov.lookaround.R;
 import alexparunov.lookaround.authenticated.utils.MapUtils;
 import alexparunov.lookaround.events.Event;
+import alexparunov.lookaround.events.Coordinates;
 import alexparunov.lookaround.events.utils.FireBaseDB;
 import alexparunov.lookaround.events.Time;
 
@@ -42,10 +43,12 @@ public class GMapFragment extends MapFragment {
     boolean isStartTimeSet = false;
     boolean isEndTimeSet = false;
 
+    FireBaseDB fireBaseDB;
+
     @Override
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
-
+        fireBaseDB = new FireBaseDB();
     }
 
     OnMapReadyCallback onMapReadyCallback = new OnMapReadyCallback() {
@@ -169,11 +172,13 @@ public class GMapFragment extends MapFragment {
                             return;
                         }
 
-                        Event event = new Event(latLng, timeStart, timeEnd, title,
+                        Event event = new Event(new Coordinates(latLng.latitude,latLng.longitude),
+                                timeStart, timeEnd, title,
                                 description, tag, new Date());
 
-                        FireBaseDB fireBaseDB = new FireBaseDB();
-                        fireBaseDB.insertEvent(getActivity(),event);
+                        if(fireBaseDB != null) {
+                            fireBaseDB.insertEvent(getActivity(), event);
+                        }
 
                     }
                 })
