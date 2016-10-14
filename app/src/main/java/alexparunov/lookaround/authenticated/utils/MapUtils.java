@@ -5,6 +5,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.Manifest;
@@ -47,7 +48,15 @@ public class MapUtils {
     }
 
     for (Event event : eventsHashMap.values()) {
-      Log.d("MAPUTILS", event.toString());
+      MarkerOptions markerOptions = new MarkerOptions();
+      markerOptions.title(event.getTitle());
+      double latitude = event.getCoordinates().getLatitude();
+      double longitude = event.getCoordinates().getLongitude();
+      markerOptions.position(new LatLng(latitude, longitude));
+      markerOptions.alpha(0.9f);
+
+      Marker marker = googleMap.addMarker(markerOptions);
+      marker.setTag(event);
     }
   }
 
@@ -68,5 +77,16 @@ public class MapUtils {
     CameraUpdate cameraPosition = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15);
     googleMap.moveCamera(cameraPosition);
     googleMap.animateCamera(cameraPosition);
+
+    googleMap.setOnMarkerClickListener(new OnMarkerClickListener());
+  }
+
+  private class OnMarkerClickListener implements GoogleMap.OnMarkerClickListener {
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+      Log.d("MAPUTILS", marker.getTag().toString());
+      return false;
+    }
   }
 }

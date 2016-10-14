@@ -52,6 +52,7 @@ public class GMapFragment extends MapFragment {
   private String description = "";
   private Time timeStart = new Time();
   private Time timeEnd = new Time();
+
   OnMapReadyCallback onMapReadyCallback = new OnMapReadyCallback() {
     @Override
     public void onMapReady(final GoogleMap googleMap) {
