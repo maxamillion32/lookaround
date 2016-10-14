@@ -9,10 +9,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,6 +25,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import alexparunov.lookaround.accounts.SignIn;
 import alexparunov.lookaround.authenticated.AuthMainActivity;
@@ -35,6 +43,22 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+//    if (!hasActiveInternetConnection()) {
+//      AlertDialog.Builder alertDialoBuilder = new AlertDialog.Builder(this);
+//      alertDialoBuilder.setTitle("No Internet Connection Found!");
+//      alertDialoBuilder.setCancelable(true)
+//          .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//              dialog.cancel();
+//            }
+//          });
+//
+//      AlertDialog alertDialog = alertDialoBuilder.create();
+//      alertDialog.show();
+//      return;
+//    }
 
     firebaseAuth = FirebaseAuth.getInstance();
     authStateListener = new FirebaseAuth.AuthStateListener() {
@@ -145,6 +169,31 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
         break;
     }
+  }
+
+  private boolean isNetworkAvailable() {
+    ConnectivityManager connectivityManager
+        = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+    return activeNetworkInfo != null;
+  }
+
+  private boolean hasActiveInternetConnection() {
+    if (isNetworkAvailable()) {
+      try {
+        HttpURLConnection urlc = (HttpURLConnection) (new URL("http://clients3.google.com/generate_204").openConnection());
+        urlc.setRequestProperty("User-Agent", "Test");
+        urlc.setRequestProperty("Connection", "close");
+        urlc.setConnectTimeout(1500);
+        urlc.connect();
+        return (urlc.getResponseCode() == 204 && urlc.getContentLength() == 0);
+      } catch (IOException e) {
+        Log.e("MAIN_A", "Error checking internet connection", e);
+      }
+    } else {
+      Log.d("MAIN_A", "No network available!");
+    }
+    return false;
   }
 
 }

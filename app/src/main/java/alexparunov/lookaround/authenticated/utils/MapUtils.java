@@ -107,7 +107,7 @@ public class MapUtils {
     @Override
     public View getInfoWindow(Marker marker) {
       Event event = (Event) marker.getTag();
-      if(event == null) {
+      if (event == null) {
         return null;
       }
       if (infoWindowView == null) {
@@ -125,7 +125,7 @@ public class MapUtils {
       final String title = event.getTitle();
       final String description = event.getDescription();
       String times = event.getStartTime().toString() + " - ";
-      if(event.getEndTime().getHours() != 0 && event.getEndTime().getMinutes() != 0) {
+      if (event.getEndTime().getHours() != 0 && event.getEndTime().getMinutes() != 0) {
         times = event.getStartTime().toString() + " - " + event.getEndTime().toString();
       }
 
