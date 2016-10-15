@@ -62,7 +62,7 @@ public class GMapFragment extends MapFragment {
       FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
       if (firebaseUser != null) {
         databaseReference = FirebaseDatabase.getInstance().getReference()
-            .child(DBConstants.DB_CHILD_EVENTS).child(firebaseUser.getUid());
+            .child(DBConstants.DB_CHILD_EVENTS);
       }
 
       final MapUtils mapUtils = new MapUtils(getContext());
@@ -74,12 +74,14 @@ public class GMapFragment extends MapFragment {
 
           @Override
           public void onDataChange(DataSnapshot dataSnapshot) {
-            for (DataSnapshot eventSnapshot : dataSnapshot.getChildren()) {
-              if (!eventsHashMap.containsKey(eventSnapshot.getKey())) {
-                eventsHashMap.put(eventSnapshot.getKey(), eventSnapshot.getValue(Event.class));
+            for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+              for (DataSnapshot eventSnapshot : userSnapshot.getChildren()) {
+                if (!eventsHashMap.containsKey(eventSnapshot.getKey())) {
+                  eventsHashMap.put(eventSnapshot.getKey(), eventSnapshot.getValue(Event.class));
+                }
               }
+              mapUtils.initializeMarkers(eventsHashMap, googleMap);
             }
-            mapUtils.initializeMarkers(eventsHashMap, googleMap);
           }
 
           @Override
@@ -148,26 +150,26 @@ public class GMapFragment extends MapFragment {
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
             new DatePickerDialog.OnDateSetListener() {
-          @Override
-          public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            dateTimeStart.setDate(dayOfMonth);
-            dateTimeStart.setMonth(monthOfYear);
-
-            TimePickerDialog timePicker = new TimePickerDialog(getActivity(),
-                new TimePickerDialog.OnTimeSetListener() {
               @Override
-              public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                dateTimeStart.setHours(hourOfDay);
-                dateTimeStart.setMinutes(minute);
-                isStartDateTimeSet = true;
-                tvDateTimeStart.setText("Starting date and time - " + dateTimeStart.toString());
-              }
-            }, hour, minutes, true);
+              public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                dateTimeStart.setDate(dayOfMonth);
+                dateTimeStart.setMonth(monthOfYear);
 
-            timePicker.setTitle("Starting Time");
-            timePicker.show();
-          }
-        },year,month,date);
+                TimePickerDialog timePicker = new TimePickerDialog(getActivity(),
+                    new TimePickerDialog.OnTimeSetListener() {
+                      @Override
+                      public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        dateTimeStart.setHours(hourOfDay);
+                        dateTimeStart.setMinutes(minute);
+                        isStartDateTimeSet = true;
+                        tvDateTimeStart.setText("Starting date and time - " + dateTimeStart.toString());
+                      }
+                    }, hour, minutes, true);
+
+                timePicker.setTitle("Starting Time");
+                timePicker.show();
+              }
+            }, year, month, date);
 
         datePickerDialog.setTitle("Starting Date");
         datePickerDialog.show();
@@ -205,7 +207,7 @@ public class GMapFragment extends MapFragment {
                 timePicker.setTitle("Ending Time");
                 timePicker.show();
               }
-            },year,month,date);
+            }, year, month, date);
 
         datePickerDialog.setTitle("Ending Date");
         datePickerDialog.show();

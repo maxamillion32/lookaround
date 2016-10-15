@@ -49,15 +49,18 @@ public class MapUtils {
         .title("Me"));
 
     for (Event event : eventsHashMap.values()) {
-      MarkerOptions markerOptions = new MarkerOptions();
-      markerOptions.title(event.getTitle());
-      double latitude1 = event.getCoordinates().getLatitude();
-      double longitude1 = event.getCoordinates().getLongitude();
-      markerOptions.position(new LatLng(latitude1, longitude1));
-      markerOptions.alpha(0.9f);
+      if (distance(latitude, longitude,
+          event.getCoordinates().getLatitude(), event.getCoordinates().getLongitude()) < 60) {
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.title(event.getTitle());
+        double latitude1 = event.getCoordinates().getLatitude();
+        double longitude1 = event.getCoordinates().getLongitude();
+        markerOptions.position(new LatLng(latitude1, longitude1));
+        markerOptions.alpha(0.9f);
 
-      Marker marker = googleMap.addMarker(markerOptions);
-      marker.setTag(event);
+        Marker marker = googleMap.addMarker(markerOptions);
+        marker.setTag(event);
+      }
     }
   }
 
@@ -103,7 +106,7 @@ public class MapUtils {
   }
 
   //The distance between two points in km using Haversine Formula
-  private double distance(double lat1, double long1, double lat2, double long2) {
+  public double distance(double lat1, double long1, double lat2, double long2) {
     double radius = 6378.1;
     lat1 = Math.toRadians(lat1);
     long1 = Math.toRadians(long1);
