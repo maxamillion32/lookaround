@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
   FirebaseAuth firebaseAuth;
   FirebaseAuth.AuthStateListener authStateListener;
+  boolean signedActivityStarted = false;
+  boolean unsignedActivityStarted = false;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +58,17 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user != null) {
           Log.d("MA", "onAuthStateChanged:signed_in:" + user.getUid());
-          startActivity(new Intent(MainActivity.this, AuthMainActivity.class));
+          if(!signedActivityStarted) {
+            Log.d("MAINACTIVITY","signedActivity");
+            signedActivityStarted = true;
+            startActivity(new Intent(MainActivity.this, AuthMainActivity.class));
+          }
         } else {
-          startActivity(new Intent(MainActivity.this, SignIn.class));
+          if(!unsignedActivityStarted) {
+            Log.d("MAINACTIVITY","unsignedActivity");
+            unsignedActivityStarted = true;
+            startActivity(new Intent(MainActivity.this, SignIn.class));
+          }
         }
       }
     };
