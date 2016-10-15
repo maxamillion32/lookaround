@@ -24,38 +24,36 @@ import alexparunov.lookaround.events.Event;
 public class MapUtils {
 
   private Context context;
-  private double latitude = 0;
-  private double longitude = 0;
 
   public MapUtils(Context context) {
     this.context = context;
-
-    GPSTracker gpsTracker = new GPSTracker(context);
-
-    if (gpsTracker.canGetLocation()) {
-      latitude = gpsTracker.getLatitude();
-      longitude = gpsTracker.getLongitude();
-    } else {
-      gpsTracker.showSettingAlert();
-    }
-
-    gpsTracker.stopUsingGPS(context);
   }
 
   public void initializeMarkers(HashMap<String, Event> eventsHashMap, GoogleMap googleMap) {
-    //User location
-    if (latitude != 0 && longitude != 0) {
-      googleMap.addMarker(new MarkerOptions()
-          .position(new LatLng(latitude, longitude))
-          .title("Me"));
+    if(context == null) {
+      return;
     }
+    GPSTracker gpsTracker = new GPSTracker(context);
+
+    if (!gpsTracker.canGetLocation()) {
+      gpsTracker.showSettingAlert();
+      return;
+    }
+
+    double latitude = gpsTracker.getLatitude();
+    double longitude = gpsTracker.getLongitude();
+    gpsTracker.stopUsingGPS(context);
+
+    googleMap.addMarker(new MarkerOptions()
+        .position(new LatLng(latitude, longitude))
+        .title("Me"));
 
     for (Event event : eventsHashMap.values()) {
       MarkerOptions markerOptions = new MarkerOptions();
       markerOptions.title(event.getTitle());
-      double latitude = event.getCoordinates().getLatitude();
-      double longitude = event.getCoordinates().getLongitude();
-      markerOptions.position(new LatLng(latitude, longitude));
+      double latitude1 = event.getCoordinates().getLatitude();
+      double longitude1 = event.getCoordinates().getLongitude();
+      markerOptions.position(new LatLng(latitude1, longitude1));
       markerOptions.alpha(0.9f);
 
       Marker marker = googleMap.addMarker(markerOptions);
@@ -64,6 +62,20 @@ public class MapUtils {
   }
 
   public void initializeMapUI(GoogleMap googleMap) {
+    if(context == null) {
+      return;
+    }
+    GPSTracker gpsTracker = new GPSTracker(context);
+
+    if (!gpsTracker.canGetLocation()) {
+      gpsTracker.showSettingAlert();
+      return;
+    }
+
+    double latitude = gpsTracker.getLatitude();
+    double longitude = gpsTracker.getLongitude();
+    gpsTracker.stopUsingGPS(context);
+
     if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
         == PackageManager.PERMISSION_GRANTED) {
       googleMap.setMyLocationEnabled(true);
@@ -72,10 +84,6 @@ public class MapUtils {
     UiSettings uiSettings = googleMap.getUiSettings();
     uiSettings.setZoomControlsEnabled(true);
     uiSettings.setMyLocationButtonEnabled(true);
-
-    if (latitude == 0 && longitude == 0) {
-      return;
-    }
 
     CameraUpdate cameraPosition = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15);
     googleMap.moveCamera(cameraPosition);

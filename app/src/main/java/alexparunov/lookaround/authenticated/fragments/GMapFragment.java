@@ -15,7 +15,6 @@ import com.google.firebase.database.ValueEventListener;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -56,6 +55,14 @@ public class GMapFragment extends MapFragment {
   OnMapReadyCallback onMapReadyCallback = new OnMapReadyCallback() {
     @Override
     public void onMapReady(final GoogleMap googleMap) {
+      fireBaseDB = new FireBaseDB();
+      FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+      FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+      if (firebaseUser != null) {
+        databaseReference = FirebaseDatabase.getInstance().getReference()
+            .child(DBConstants.DB_CHILD_EVENTS).child(firebaseUser.getUid());
+      }
+
       final MapUtils mapUtils = new MapUtils(getContext());
       mapUtils.initializeMapUI(googleMap);
 
@@ -91,18 +98,6 @@ public class GMapFragment extends MapFragment {
 
   public GMapFragment() {
     getMapAsync(onMapReadyCallback);
-  }
-
-  @Override
-  public void onActivityCreated(Bundle bundle) {
-    super.onActivityCreated(bundle);
-    fireBaseDB = new FireBaseDB();
-    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-    FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-    if (firebaseUser != null) {
-      databaseReference = FirebaseDatabase.getInstance().getReference()
-          .child(DBConstants.DB_CHILD_EVENTS).child(firebaseUser.getUid());
-    }
   }
 
   private void showInputDialog(final LatLng latLng) {
