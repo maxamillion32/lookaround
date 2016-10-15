@@ -16,7 +16,6 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -80,23 +79,23 @@ public class GMapFragment extends MapFragment {
             for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
               for (DataSnapshot eventSnapshot : userSnapshot.getChildren()) {
                 //Remove own finished events
-                if(userId != null) {
-                  if(userId.equals(userSnapshot.getKey())) {
+                if (userId != null) {
+                  if (userId.equals(userSnapshot.getKey())) {
                     Event event = eventSnapshot.getValue(Event.class);
                     Calendar nCal = Calendar.getInstance();
-                    DateTime now = new DateTime(nCal.get(Calendar.MONTH),nCal.get(Calendar.DAY_OF_MONTH),
-                                                nCal.get(Calendar.HOUR_OF_DAY),nCal.get(Calendar.MINUTE));
+                    DateTime now = new DateTime(nCal.get(Calendar.MONTH), nCal.get(Calendar.DAY_OF_MONTH),
+                        nCal.get(Calendar.HOUR_OF_DAY), nCal.get(Calendar.MINUTE));
                     DateTime end = event.getEndTime();
                     //End date does not exist
-                    if(end.getDate() == 0) {
+                    if (end.getDate() == 0) {
                       DateTime start = event.getStartTime();
-                      DateTime nextDay = new DateTime(start.getMonth(),start.getDate()+1,
-                                                        start.getHours(),start.getMinutes());
-                      if(nextDay.isBefore(now)) {
+                      DateTime nextDay = new DateTime(start.getMonth(), start.getDate() + 1,
+                          start.getHours(), start.getMinutes());
+                      if (nextDay.isBefore(now)) {
                         databaseReference.child(userId).child(eventSnapshot.getKey()).removeValue();
                       }
                     } else {
-                      if(end.isBefore(now)) {
+                      if (end.isBefore(now)) {
                         databaseReference.child(userId).child(eventSnapshot.getKey()).removeValue();
                       }
                     }
@@ -244,7 +243,14 @@ public class GMapFragment extends MapFragment {
         .setPositiveButton("Create Event", new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialog, int which) {
+            Calendar nCal = Calendar.getInstance();
+            DateTime now = new DateTime(nCal.get(Calendar.MONTH), nCal.get(Calendar.DAY_OF_MONTH),
+                nCal.get(Calendar.HOUR_OF_DAY), nCal.get(Calendar.MINUTE));
 
+            if (dateTimeStart.isBefore(now)) {
+              Toast.makeText(getContext(), "Starting date and time is outdated", Toast.LENGTH_SHORT).show();
+              return;
+            }
             if (!dateTimeStart.isBefore(dateTimeEnd) && isStartDateTimeSet && isEndDateTimeSet) {
               Toast.makeText(getContext(), "Starting date and time should be before ending date and time", Toast.LENGTH_SHORT).show();
               return;

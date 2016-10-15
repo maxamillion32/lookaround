@@ -4,6 +4,7 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -44,9 +45,22 @@ public class MapUtils {
     double longitude = gpsTracker.getLongitude();
     gpsTracker.stopUsingGPS(context);
 
+    double radiusInMeters = 300.0;
+    //red outline
+    int strokeColor = 0x0000ff00;
+    //opaque red fill
+    int shadeColor = 0x6666ff00;
+
     googleMap.addMarker(new MarkerOptions()
         .position(new LatLng(latitude, longitude))
         .title("Me"));
+
+    googleMap.addCircle(new CircleOptions()
+        .center(new LatLng(latitude, longitude))
+        .radius(radiusInMeters)
+        .fillColor(shadeColor)
+        .strokeColor(strokeColor)
+        .strokeWidth(2));
 
     for (Event event : eventsHashMap.values()) {
       if (distance(latitude, longitude,
