@@ -16,7 +16,7 @@ public class DateTime {
     this.setMonth(0);
   }
 
-  public DateTime(int hours, int minutes, int date, int month) {
+  public DateTime(int month, int date, int hours, int minutes) {
     this.setHours(hours);
     this.setMinutes(minutes);
     this.setDate(date);

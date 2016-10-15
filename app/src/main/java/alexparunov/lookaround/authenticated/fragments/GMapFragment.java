@@ -16,6 +16,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,8 +43,8 @@ public class GMapFragment extends MapFragment {
 
   boolean isStartDateTimeSet = false;
   boolean isEndDateTimeSet = false;
-  FireBaseDB fireBaseDB;
-  DatabaseReference databaseReference;
+  private FireBaseDB fireBaseDB;
+  private DatabaseReference databaseReference;
   private EditText etTitle;
   private EditText etDescription;
   private TextView tvDateTimeStart;
@@ -53,6 +54,7 @@ public class GMapFragment extends MapFragment {
   private String description = "";
   private DateTime dateTimeStart = new DateTime();
   private DateTime dateTimeEnd = new DateTime();
+  private String userId;
 
   OnMapReadyCallback onMapReadyCallback = new OnMapReadyCallback() {
     @Override
@@ -63,6 +65,7 @@ public class GMapFragment extends MapFragment {
       if (firebaseUser != null) {
         databaseReference = FirebaseDatabase.getInstance().getReference()
             .child(DBConstants.DB_CHILD_EVENTS);
+        userId = firebaseUser.getUid();
       }
 
       final MapUtils mapUtils = new MapUtils(getContext());
@@ -76,6 +79,29 @@ public class GMapFragment extends MapFragment {
           public void onDataChange(DataSnapshot dataSnapshot) {
             for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
               for (DataSnapshot eventSnapshot : userSnapshot.getChildren()) {
+                //Remove own finished events
+                if(userId != null) {
+                  if(userId.equals(userSnapshot.getKey())) {
+                    Event event = eventSnapshot.getValue(Event.class);
+                    Calendar nCal = Calendar.getInstance();
+                    DateTime now = new DateTime(nCal.get(Calendar.MONTH),nCal.get(Calendar.DAY_OF_MONTH),
+                                                nCal.get(Calendar.HOUR_OF_DAY),nCal.get(Calendar.MINUTE));
+                    DateTime end = event.getEndTime();
+                    //End date does not exist
+                    if(end.getDate() == 0) {
+                      DateTime start = event.getStartTime();
+                      DateTime nextDay = new DateTime(start.getMonth(),start.getDate()+1,
+                                                        start.getHours(),start.getMinutes());
+                      if(nextDay.isBefore(now)) {
+                        databaseReference.child(userId).child(eventSnapshot.getKey()).removeValue();
+                      }
+                    } else {
+                      if(end.isBefore(now)) {
+                        databaseReference.child(userId).child(eventSnapshot.getKey()).removeValue();
+                      }
+                    }
+                  }
+                }
                 if (!eventsHashMap.containsKey(eventSnapshot.getKey())) {
                   eventsHashMap.put(eventSnapshot.getKey(), eventSnapshot.getValue(Event.class));
                 }
