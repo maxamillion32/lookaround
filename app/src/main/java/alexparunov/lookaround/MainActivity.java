@@ -9,9 +9,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -44,21 +42,12 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-//    if (!hasActiveInternetConnection()) {
-//      AlertDialog.Builder alertDialoBuilder = new AlertDialog.Builder(this);
-//      alertDialoBuilder.setTitle("No Internet Connection Found!");
-//      alertDialoBuilder.setCancelable(true)
-//          .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//              dialog.cancel();
-//            }
-//          });
-//
-//      AlertDialog alertDialog = alertDialoBuilder.create();
-//      alertDialog.show();
-//      return;
-//    }
+    SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+
+    if (!sharedPreferences.getBoolean(ARE_ALL_PERMISSIONS_GRANTED, false)) {
+      askForPermissions();
+      finish();
+    }
 
     firebaseAuth = FirebaseAuth.getInstance();
     authStateListener = new FirebaseAuth.AuthStateListener() {
@@ -80,23 +69,6 @@ public class MainActivity extends AppCompatActivity {
     super.onStart();
     if (firebaseAuth != null) {
       firebaseAuth.addAuthStateListener(authStateListener);
-    }
-  }
-
-  @Override
-  protected void onResume() {
-    super.onResume();
-
-    SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
-
-    if (!sharedPreferences.getBoolean(ARE_ALL_PERMISSIONS_GRANTED, false)) {
-      askForPermissions();
-    }
-
-    boolean allPermissionsGranted = sharedPreferences.getBoolean(ARE_ALL_PERMISSIONS_GRANTED, false);
-
-    if (!allPermissionsGranted) {
-      onResume();
     }
   }
 
@@ -175,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
     ConnectivityManager connectivityManager
         = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
     NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-    return activeNetworkInfo != null;
+    return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
   }
 
   private boolean hasActiveInternetConnection() {
@@ -195,5 +167,4 @@ public class MainActivity extends AppCompatActivity {
     }
     return false;
   }
-
 }
