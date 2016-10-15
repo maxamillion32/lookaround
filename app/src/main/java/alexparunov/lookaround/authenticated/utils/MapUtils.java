@@ -12,6 +12,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -30,7 +31,7 @@ public class MapUtils {
   }
 
   public void initializeMarkers(HashMap<String, Event> eventsHashMap, GoogleMap googleMap) {
-    if(context == null) {
+    if (context == null) {
       return;
     }
     GPSTracker gpsTracker = new GPSTracker(context);
@@ -62,7 +63,7 @@ public class MapUtils {
   }
 
   public void initializeMapUI(GoogleMap googleMap) {
-    if(context == null) {
+    if (context == null) {
       return;
     }
     GPSTracker gpsTracker = new GPSTracker(context);
@@ -85,7 +86,7 @@ public class MapUtils {
     uiSettings.setZoomControlsEnabled(true);
     uiSettings.setMyLocationButtonEnabled(true);
 
-    CameraUpdate cameraPosition = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15);
+    CameraUpdate cameraPosition = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 13);
     googleMap.moveCamera(cameraPosition);
     googleMap.animateCamera(cameraPosition);
 
@@ -100,6 +101,22 @@ public class MapUtils {
       marker.showInfoWindow();
       return false;
     }
+  }
+
+  //The distance between two points in km using Haversine Formula
+  private double distanceBetweenPoints(double lat1, double long1, double lat2, double long2) {
+    int radius = 6371;
+    double distance = 0;
+    lat1 = Math.toRadians(lat1);
+    long1 = Math.toRadians(long1);
+    lat2 = Math.toRadians(lat2);
+    long2 = Math.toRadians(long2);
+
+    double temp = Math.sqrt(Math.sin((lat2 - lat1) / 2) * Math.sin((lat2 - lat1) / 2) +
+        Math.cos(lat1) * Math.cos(lat2) *
+            Math.sin((long2 - long1) / 2) * Math.sin((long2 - long1) / 2));
+    distance = 2 * radius * Math.asin(temp);
+    return distance;
   }
 
   private class InfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
