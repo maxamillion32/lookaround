@@ -5,8 +5,8 @@ import java.util.Date;
 public class Event {
 
   private Coordinates coordinates;
-  private Time startTime;
-  private Time endTime;
+  private DateTime startDateTime;
+  private DateTime endDateTime;
   private String title;
   private String description;
   private String tag;
@@ -16,11 +16,11 @@ public class Event {
   public Event() {
   }
 
-  public Event(Coordinates coordinates, Time startTime, Time endTime, String title,
+  public Event(Coordinates coordinates, DateTime startDateTime, DateTime endDateTime, String title,
                String description, String tag, Date createdAt) {
     this.coordinates = coordinates;
-    this.startTime = startTime;
-    this.endTime = endTime;
+    this.startDateTime = startDateTime;
+    this.endDateTime = endDateTime;
     this.title = title;
     this.description = description;
     this.tag = tag;
@@ -35,20 +35,20 @@ public class Event {
     this.coordinates = coordinates;
   }
 
-  public Time getStartTime() {
-    return startTime;
+  public DateTime getStartTime() {
+    return startDateTime;
   }
 
-  public void setStartTime(Time startTime) {
-    this.startTime = startTime;
+  public void setStartTime(DateTime startDateTime) {
+    this.startDateTime = startDateTime;
   }
 
-  public Time getEndTime() {
-    return endTime;
+  public DateTime getEndTime() {
+    return endDateTime;
   }
 
-  public void setEndTime(Time endTime) {
-    this.endTime = endTime;
+  public void setEndTime(DateTime endDateTime) {
+    this.endDateTime = endDateTime;
   }
 
   public String getTitle() {
@@ -98,8 +98,8 @@ public class Event {
             "Title: " + this.title + "\n" +
             "Description: " + this.description + "\n" +
             "Tag: " + this.tag + "\n" +
-            "Starting time: " + this.startTime.toString() + "\n" +
-            "Ending time: " + this.endTime.toString() + "\n" +
+            "Starting time: " + this.startDateTime.toString() + "\n" +
+            "Ending time: " + this.endDateTime.toString() + "\n" +
             "Created at: " + this.createdAt.toString() + "\n" +
             "Created by:\n" + this.createdBy.toString() + "\n";
   }

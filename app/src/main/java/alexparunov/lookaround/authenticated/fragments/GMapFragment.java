@@ -13,11 +13,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -31,26 +33,26 @@ import java.util.HashMap;
 import alexparunov.lookaround.R;
 import alexparunov.lookaround.authenticated.utils.MapUtils;
 import alexparunov.lookaround.events.Coordinates;
+import alexparunov.lookaround.events.DateTime;
 import alexparunov.lookaround.events.Event;
-import alexparunov.lookaround.events.Time;
 import alexparunov.lookaround.events.utils.DBConstants;
 import alexparunov.lookaround.events.utils.FireBaseDB;
 
 public class GMapFragment extends MapFragment {
 
-  boolean isStartTimeSet = false;
-  boolean isEndTimeSet = false;
+  boolean isStartDateTimeSet = false;
+  boolean isEndDateTimeSet = false;
   FireBaseDB fireBaseDB;
   DatabaseReference databaseReference;
   private EditText etTitle;
   private EditText etDescription;
-  private TextView tvTimeStart;
-  private TextView tvTimeEnd;
+  private TextView tvDateTimeStart;
+  private TextView tvDateTimeEnd;
   private String tag = "";
   private String title = "";
   private String description = "";
-  private Time timeStart = new Time();
-  private Time timeEnd = new Time();
+  private DateTime dateTimeStart = new DateTime();
+  private DateTime dateTimeEnd = new DateTime();
 
   OnMapReadyCallback onMapReadyCallback = new OnMapReadyCallback() {
     @Override
@@ -101,8 +103,8 @@ public class GMapFragment extends MapFragment {
   }
 
   private void showInputDialog(final LatLng latLng) {
-    isStartTimeSet = false;
-    isEndTimeSet = false;
+    isStartDateTimeSet = false;
+    isEndDateTimeSet = false;
 
     LayoutInflater layoutInflater = LayoutInflater.from(getContext());
     View promtView = layoutInflater.inflate(R.layout.fragment_gmap_input_dialog, null);
@@ -113,10 +115,10 @@ public class GMapFragment extends MapFragment {
     etTitle = (EditText) promtView.findViewById(R.id.fragment_gmap_input_dialog_TitleET);
     etDescription = (EditText) promtView.findViewById(R.id.fragment_gmap_input_dialog_DescriptionET);
     Spinner tagsSpinner = (Spinner) promtView.findViewById(R.id.fragment_gmap_input_dialog_TagsSpinner);
-    tvTimeStart = (TextView) promtView.findViewById(R.id.fragment_gmap_input_dialog_TimeStartTV);
-    tvTimeEnd = (TextView) promtView.findViewById(R.id.fragment_gmap_input_dialog_TimeEndTV);
+    tvDateTimeStart = (TextView) promtView.findViewById(R.id.fragment_gmap_input_dialog_DateTimeStartTV);
+    tvDateTimeEnd = (TextView) promtView.findViewById(R.id.fragment_gmap_input_dialog_DateTimeEndTV);
 
-    if (etTitle == null || etDescription == null || tagsSpinner == null || tvTimeStart == null || tvTimeEnd == null)
+    if (etTitle == null || etDescription == null || tagsSpinner == null || tvDateTimeStart == null || tvDateTimeEnd == null)
       return;
 
     tagsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -134,47 +136,79 @@ public class GMapFragment extends MapFragment {
       }
     });
 
-    tvTimeStart.setOnClickListener(new View.OnClickListener() {
+    tvDateTimeStart.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         Calendar currentTime = Calendar.getInstance();
-        int hour = currentTime.get(Calendar.HOUR_OF_DAY);
+        final int hour = currentTime.get(Calendar.HOUR_OF_DAY);
         final int minutes = currentTime.get(Calendar.MINUTE);
+        int date = currentTime.get(Calendar.DAY_OF_MONTH);
+        int month = currentTime.get(Calendar.MONTH);
+        int year = currentTime.get(Calendar.YEAR);
 
-        TimePickerDialog timePicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
+            new DatePickerDialog.OnDateSetListener() {
           @Override
-          public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            timeStart.setHours(hourOfDay);
-            timeStart.setMinutes(minute);
-            isStartTimeSet = true;
-            tvTimeStart.setText("Starting time - " + timeStart.toString());
-          }
-        }, hour, minutes, true);
+          public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            dateTimeStart.setDate(dayOfMonth);
+            dateTimeStart.setMonth(monthOfYear);
 
-        timePicker.setTitle("Start Time");
-        timePicker.show();
+            TimePickerDialog timePicker = new TimePickerDialog(getActivity(),
+                new TimePickerDialog.OnTimeSetListener() {
+              @Override
+              public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                dateTimeStart.setHours(hourOfDay);
+                dateTimeStart.setMinutes(minute);
+                isStartDateTimeSet = true;
+                tvDateTimeStart.setText("Starting date and time - " + dateTimeStart.toString());
+              }
+            }, hour, minutes, true);
+
+            timePicker.setTitle("Starting Time");
+            timePicker.show();
+          }
+        },year,month,date);
+
+        datePickerDialog.setTitle("Starting Date");
+        datePickerDialog.show();
       }
     });
 
-    tvTimeEnd.setOnClickListener(new View.OnClickListener() {
+    tvDateTimeEnd.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         Calendar currentTime = Calendar.getInstance();
-        int hour = currentTime.get(Calendar.HOUR_OF_DAY);
-        int minutes = currentTime.get(Calendar.MINUTE);
+        final int hour = currentTime.get(Calendar.HOUR_OF_DAY);
+        final int minutes = currentTime.get(Calendar.MINUTE);
+        int date = currentTime.get(Calendar.DAY_OF_MONTH);
+        int month = currentTime.get(Calendar.MONTH);
+        int year = currentTime.get(Calendar.YEAR);
 
-        TimePickerDialog timePicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
-          @Override
-          public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            timeEnd.setHours(hourOfDay);
-            timeEnd.setMinutes(minute);
-            isEndTimeSet = true;
-            tvTimeEnd.setText("Ending time - " + timeEnd.toString());
-          }
-        }, hour + 1, minutes, true);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
+            new DatePickerDialog.OnDateSetListener() {
+              @Override
+              public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                dateTimeEnd.setDate(dayOfMonth);
+                dateTimeEnd.setMonth(monthOfYear);
 
-        timePicker.setTitle("End Time");
-        timePicker.show();
+                TimePickerDialog timePicker = new TimePickerDialog(getActivity(),
+                    new TimePickerDialog.OnTimeSetListener() {
+                      @Override
+                      public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        dateTimeEnd.setHours(hourOfDay);
+                        dateTimeEnd.setMinutes(minute);
+                        isEndDateTimeSet = true;
+                        tvDateTimeEnd.setText("Ending date and time - " + dateTimeStart.toString());
+                      }
+                    }, hour, minutes, true);
+
+                timePicker.setTitle("Ending Time");
+                timePicker.show();
+              }
+            },year,month,date);
+
+        datePickerDialog.setTitle("Ending Date");
+        datePickerDialog.show();
       }
     });
 
@@ -183,8 +217,8 @@ public class GMapFragment extends MapFragment {
           @Override
           public void onClick(DialogInterface dialog, int which) {
 
-            if (!timeStart.isBefore(timeEnd) && isStartTimeSet && isEndTimeSet) {
-              Toast.makeText(getContext(), "Starting time should be before ending time", Toast.LENGTH_SHORT).show();
+            if (!dateTimeStart.isBefore(dateTimeEnd) && isStartDateTimeSet && isEndDateTimeSet) {
+              Toast.makeText(getContext(), "Starting date and time should be before ending date and time", Toast.LENGTH_SHORT).show();
               return;
             }
 
@@ -196,13 +230,13 @@ public class GMapFragment extends MapFragment {
               return;
             }
 
-            if (!isStartTimeSet) {
-              Toast.makeText(getContext(), "Starting time is required", Toast.LENGTH_SHORT).show();
+            if (!isStartDateTimeSet) {
+              Toast.makeText(getContext(), "Starting date and time is required", Toast.LENGTH_SHORT).show();
               return;
             }
 
             Event event = new Event(new Coordinates(latLng.latitude, latLng.longitude),
-                timeStart, timeEnd, title,
+                dateTimeStart, dateTimeEnd, title,
                 description, tag, new Date());
 
             if (fireBaseDB != null) {
