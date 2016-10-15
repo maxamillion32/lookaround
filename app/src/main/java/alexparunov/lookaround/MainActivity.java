@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
 
     if (!sharedPreferences.getBoolean(ARE_ALL_PERMISSIONS_GRANTED, false)) {
       askForPermissions();
-      finish();
     }
 
     firebaseAuth = FirebaseAuth.getInstance();
