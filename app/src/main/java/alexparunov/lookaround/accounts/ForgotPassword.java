@@ -52,7 +52,7 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
                 Log.d("FP", "Reset email sent: " + task.isSuccessful());
 
                 if (!task.isSuccessful()) {
-                  Toast.makeText(ForgotPassword.this, "Email send failed.", Toast.LENGTH_LONG).show();
+                  Toast.makeText(ForgotPassword.this, "Email sending failed. Please check Internet connection.", Toast.LENGTH_LONG).show();
                   return;
                 }
 

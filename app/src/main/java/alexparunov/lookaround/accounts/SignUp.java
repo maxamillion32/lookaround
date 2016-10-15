@@ -68,7 +68,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                 Log.d("SU", "createUserWithEmail:onComplete:" + task.isSuccessful());
 
                 if (!task.isSuccessful()) {
-                  Toast.makeText(getBaseContext(), "User with such email already exists", Toast.LENGTH_SHORT).show();
+                  Toast.makeText(getBaseContext(), "Registration failed. Please check Internet connection and requested credentials.", Toast.LENGTH_SHORT).show();
                 }
               }
             });

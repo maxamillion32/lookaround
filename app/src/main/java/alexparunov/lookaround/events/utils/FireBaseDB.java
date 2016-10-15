@@ -44,7 +44,11 @@ public class FireBaseDB {
         .addOnCompleteListener(new OnCompleteListener<Void>() {
           @Override
           public void onComplete(@NonNull Task<Void> task) {
-            Toast.makeText(activity, "Event was successfully created!", Toast.LENGTH_SHORT).show();
+            if (task.isSuccessful()) {
+              Toast.makeText(activity, "Event was successfully created!", Toast.LENGTH_SHORT).show();
+            } else {
+              Toast.makeText(activity, "Error occured while creating event. Please check Internet connection.", Toast.LENGTH_SHORT).show();
+            }
           }
         });
   }

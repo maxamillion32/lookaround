@@ -117,7 +117,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                   Log.d("PR", "User profile updated.");
                   Toast.makeText(context, "Profile was successfully updated", Toast.LENGTH_SHORT).show();
                 } else {
-                  Toast.makeText(context, "Error occurred during update", Toast.LENGTH_SHORT).show();
+                  Toast.makeText(context, "Error occurred during update. Please check Internet connection.", Toast.LENGTH_SHORT).show();
                 }
               }
             });

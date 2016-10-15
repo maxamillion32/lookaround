@@ -69,7 +69,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
 
                 if (!task.isSuccessful()) {
                   Log.w("SI", "signInWithEmail:failed", task.getException());
-                  Toast.makeText(SignIn.this, "Sign In failed. Please check credentials.",
+                  Toast.makeText(SignIn.this, "Sign In failed. Please check credentials and Internet connection",
                       Toast.LENGTH_SHORT).show();
                   return;
                 }
