@@ -12,7 +12,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -104,9 +103,8 @@ public class MapUtils {
   }
 
   //The distance between two points in km using Haversine Formula
-  private double distanceBetweenPoints(double lat1, double long1, double lat2, double long2) {
-    int radius = 6371;
-    double distance = 0;
+  private double distance(double lat1, double long1, double lat2, double long2) {
+    double radius = 6378.1;
     lat1 = Math.toRadians(lat1);
     long1 = Math.toRadians(long1);
     lat2 = Math.toRadians(lat2);
@@ -115,8 +113,27 @@ public class MapUtils {
     double temp = Math.sqrt(Math.sin((lat2 - lat1) / 2) * Math.sin((lat2 - lat1) / 2) +
         Math.cos(lat1) * Math.cos(lat2) *
             Math.sin((long2 - long1) / 2) * Math.sin((long2 - long1) / 2));
-    distance = 2 * radius * Math.asin(temp);
-    return distance;
+    return 2 * radius * Math.asin(temp);
+  }
+
+  private double[] getLatLong(double lat1, double long1, double dist) {
+    double radius = 6378.1;
+    double brg = 1.57; //bearing is 90 degrees in radians
+
+    double result[] = new double[2];
+    lat1 = Math.toRadians(lat1);
+    long1 = Math.toRadians(long1);
+
+    double lat2 = Math.asin(Math.sin(lat1) * Math.cos(dist / radius) +
+        Math.cos(lat1) * Math.sin(dist / radius) * Math.cos(brg));
+
+    double long2 = long1 + Math.atan2(Math.sin(brg) * Math.sin(dist / radius) * Math.cos(lat1),
+        Math.cos(dist / radius) - Math.sin(lat1) * Math.sin(lat2));
+    lat2 = Math.toDegrees(lat2);
+    long2 = Math.toDegrees(long2);
+    result[0] = lat2;
+    result[1] = long2;
+    return result;
   }
 
   private class InfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
