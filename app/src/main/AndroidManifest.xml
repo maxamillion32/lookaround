@@ -12,9 +12,10 @@
   <uses-feature
       android:glEsVersion="0x00020000"
       android:required="true"/>
+
   <uses-sdk
       android:minSdkVersion="21"
-      android:targetSdkVersion="23"/>
+      android:targetSdkVersion="24"/>
 
   <application
       android:allowBackup="true"
