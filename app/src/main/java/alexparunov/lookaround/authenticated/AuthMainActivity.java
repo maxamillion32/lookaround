@@ -12,8 +12,10 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import alexparunov.lookaround.MainActivity;
 import alexparunov.lookaround.R;
@@ -59,6 +61,7 @@ public class AuthMainActivity extends AppCompatActivity {
     navigationView.setNavigationItemSelectedListener(new NavItemSelectedListener());
   }
 
+
   @Override
   public void onBackPressed() {
     drawer = (DrawerLayout) findViewById(R.id.activity_auth_main_drawer_layout);
@@ -97,7 +100,13 @@ public class AuthMainActivity extends AppCompatActivity {
         transaction.replace(R.id.activity_auth_main_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
-        drawer.closeDrawer(GravityCompat.START);
+        if (drawer != null) {
+          drawer.closeDrawer(GravityCompat.START);
+        }
+        CardView cardView = (CardView) findViewById(R.id.activity_auth_main_cardview);
+        if (cardView != null) {
+          cardView.setVisibility(View.INVISIBLE);
+        }
         return true;
       }
 

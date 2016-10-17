@@ -11,6 +11,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,24 +25,25 @@ import alexparunov.lookaround.accounts.utils.AccountUtils;
 
 public class ProfileFragment extends Fragment implements View.OnClickListener {
 
-  public ProfileFragment() {
-  }
-
   Context context;
+  View view;
   private EditText etFullName;
   private EditText etEmail;
   private EditText etPassword;
   private FirebaseUser firebaseUser;
-
   private String fullName;
   private String email;
   private String password;
+
+  public ProfileFragment() {
+  }
 
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_profile, container, false);
     context = view.getContext();
+    this.view = view;
     return view;
   }
 
@@ -139,5 +141,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
   public void onDestroyView() {
     super.onDestroyView();
     getActivity().setTitle("Events Nearby");
+
+    CardView cardView = (CardView) getActivity().findViewById(R.id.activity_auth_main_cardview);
+    if (cardView != null) {
+      cardView.setVisibility(View.VISIBLE);
+    }
   }
 }

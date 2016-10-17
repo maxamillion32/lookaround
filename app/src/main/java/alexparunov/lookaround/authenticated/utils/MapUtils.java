@@ -25,6 +25,7 @@ import alexparunov.lookaround.events.Event;
 public class MapUtils {
 
   private Context context;
+  private boolean isMyMarkerAdded = false;
 
   public MapUtils(Context context) {
     this.context = context;
@@ -51,9 +52,12 @@ public class MapUtils {
     //opaque red fill
     int shadeColor = 0x6666ff00;
 
-    googleMap.addMarker(new MarkerOptions()
-        .position(new LatLng(latitude, longitude))
-        .title("Me"));
+    if (!isMyMarkerAdded) {
+      googleMap.addMarker(new MarkerOptions()
+          .position(new LatLng(latitude, longitude))
+          .title("Me"));
+      isMyMarkerAdded = true;
+    }
 
     googleMap.addCircle(new CircleOptions()
         .center(new LatLng(latitude, longitude))
@@ -120,7 +124,7 @@ public class MapUtils {
   }
 
   //The distance between two points in km using Haversine Formula
-  public double distance(double lat1, double long1, double lat2, double long2) {
+  private double distance(double lat1, double long1, double lat2, double long2) {
     double radius = 6378.1;
     lat1 = Math.toRadians(lat1);
     long1 = Math.toRadians(long1);
