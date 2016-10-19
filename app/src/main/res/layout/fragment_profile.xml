@@ -26,12 +26,20 @@
             android:hint="Email" />
 
         <EditText
-            android:id="@+id/fragment_profile_passwordET"
+            android:id="@+id/fragment_profile_newPassword1ET"
             android:inputType="textPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Password" />
+            android:hint="New password" />
+
+        <EditText
+            android:id="@+id/fragment_profile_newPassword2ET"
+            android:inputType="textPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Repeat password" />
 
         <Button
         android:id="@+id/fragment_profile_submitB"
