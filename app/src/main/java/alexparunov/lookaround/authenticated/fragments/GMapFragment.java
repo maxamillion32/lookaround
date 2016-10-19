@@ -1,5 +1,9 @@
 package alexparunov.lookaround.authenticated.fragments;
 
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -16,6 +20,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -54,6 +59,7 @@ public class GMapFragment extends MapFragment {
   private DateTime dateTimeStart = new DateTime();
   private DateTime dateTimeEnd = new DateTime();
   private String userId;
+  private Place mPlace;
 
   OnMapReadyCallback onMapReadyCallback = new OnMapReadyCallback() {
     @Override
@@ -61,6 +67,22 @@ public class GMapFragment extends MapFragment {
       fireBaseDB = new FireBaseDB();
       FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
       FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+      PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+          getFragmentManager().findFragmentById(R.id.acivity_auth_autocomplete_fragment);
+
+      autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+        @Override
+        public void onPlaceSelected(Place place) {
+          Log.d("GMAP",place.getName() + ": selected");
+          mPlace = place;
+          getMapAsync(onMapReadyCallback);
+        }
+
+        @Override
+        public void onError(Status status) {
+
+        }
+      });
       if (firebaseUser != null) {
         databaseReference = FirebaseDatabase.getInstance().getReference()
             .child(DBConstants.DB_CHILD_EVENTS);
@@ -68,7 +90,7 @@ public class GMapFragment extends MapFragment {
       }
 
       final MapUtils mapUtils = new MapUtils(getContext());
-      mapUtils.initializeMapUI(googleMap);
+      mapUtils.initializeMapUI(mPlace,googleMap);
 
       if (databaseReference != null) {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -105,7 +127,7 @@ public class GMapFragment extends MapFragment {
                   eventsHashMap.put(eventSnapshot.getKey(), eventSnapshot.getValue(Event.class));
                 }
               }
-              mapUtils.initializeMarkers(eventsHashMap, googleMap);
+              mapUtils.initializeMarkers(mPlace,eventsHashMap, googleMap);
             }
           }
 
@@ -225,7 +247,7 @@ public class GMapFragment extends MapFragment {
                         dateTimeEnd.setHours(hourOfDay);
                         dateTimeEnd.setMinutes(minute);
                         isEndDateTimeSet = true;
-                        tvDateTimeEnd.setText("Ending date and time - " + dateTimeStart.toString());
+                        tvDateTimeEnd.setText("Ending date and time - " + dateTimeEnd.toString());
                       }
                     }, hour, minutes, true);
 

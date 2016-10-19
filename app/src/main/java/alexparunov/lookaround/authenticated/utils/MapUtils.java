@@ -1,10 +1,10 @@
 package alexparunov.lookaround.authenticated.utils;
 
+import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -31,40 +31,39 @@ public class MapUtils {
     this.context = context;
   }
 
-  public void initializeMarkers(HashMap<String, Event> eventsHashMap, GoogleMap googleMap) {
+  public void initializeMarkers(Place place, HashMap<String, Event> eventsHashMap, GoogleMap googleMap) {
     if (context == null) {
       return;
     }
-    GPSTracker gpsTracker = new GPSTracker(context);
 
-    if (!gpsTracker.canGetLocation()) {
-      gpsTracker.showSettingAlert();
-      return;
+    double latitude;
+    double longitude;
+    CharSequence title;
+
+    if (place == null) {
+      GPSTracker gpsTracker = new GPSTracker(context);
+
+      if (!gpsTracker.canGetLocation()) {
+        gpsTracker.showSettingAlert();
+        return;
+      }
+
+      latitude = gpsTracker.getLatitude();
+      longitude = gpsTracker.getLongitude();
+      gpsTracker.stopUsingGPS(context);
+      title = "Me";
+    } else {
+      latitude = place.getLatLng().latitude;
+      longitude = place.getLatLng().longitude;
+      title = place.getName();
     }
-
-    double latitude = gpsTracker.getLatitude();
-    double longitude = gpsTracker.getLongitude();
-    gpsTracker.stopUsingGPS(context);
-
-    double radiusInMeters = 300.0;
-    //red outline
-    int strokeColor = 0x0000ff00;
-    //opaque red fill
-    int shadeColor = 0x6666ff00;
 
     if (!isMyMarkerAdded) {
       googleMap.addMarker(new MarkerOptions()
           .position(new LatLng(latitude, longitude))
-          .title("Me"));
+          .title(title.toString()));
       isMyMarkerAdded = true;
     }
-
-    googleMap.addCircle(new CircleOptions()
-        .center(new LatLng(latitude, longitude))
-        .radius(radiusInMeters)
-        .fillColor(shadeColor)
-        .strokeColor(strokeColor)
-        .strokeWidth(2));
 
     for (Event event : eventsHashMap.values()) {
       if (distance(latitude, longitude,
@@ -82,21 +81,27 @@ public class MapUtils {
     }
   }
 
-  public void initializeMapUI(GoogleMap googleMap) {
+  public void initializeMapUI(Place place, GoogleMap googleMap) {
     if (context == null) {
       return;
     }
-    GPSTracker gpsTracker = new GPSTracker(context);
 
-    if (!gpsTracker.canGetLocation()) {
-      gpsTracker.showSettingAlert();
-      return;
+    double latitude;
+    double longitude;
+
+    if (place == null) {
+      GPSTracker gpsTracker = new GPSTracker(context);
+      if (!gpsTracker.canGetLocation()) {
+        gpsTracker.showSettingAlert();
+        return;
+      }
+      latitude = gpsTracker.getLatitude();
+      longitude = gpsTracker.getLongitude();
+      gpsTracker.stopUsingGPS(context);
+    } else {
+      latitude = place.getLatLng().latitude;
+      longitude = place.getLatLng().longitude;
     }
-
-    double latitude = gpsTracker.getLatitude();
-    double longitude = gpsTracker.getLongitude();
-    gpsTracker.stopUsingGPS(context);
-
     if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
         == PackageManager.PERMISSION_GRANTED) {
       googleMap.setMyLocationEnabled(true);
@@ -110,17 +115,14 @@ public class MapUtils {
     googleMap.moveCamera(cameraPosition);
     googleMap.animateCamera(cameraPosition);
 
-    googleMap.setOnMarkerClickListener(new OnMarkerClickListener());
+    googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+      @Override
+      public boolean onMarkerClick(Marker marker) {
+        marker.showInfoWindow();
+        return false;
+      }
+    });
     googleMap.setInfoWindowAdapter(new InfoWindowAdapter());
-  }
-
-  private class OnMarkerClickListener implements GoogleMap.OnMarkerClickListener {
-
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-      marker.showInfoWindow();
-      return false;
-    }
   }
 
   //The distance between two points in km using Haversine Formula

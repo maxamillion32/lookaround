@@ -34,7 +34,7 @@
         android:layout_marginEnd="@dimen/activity_horizontal_margin">
 
       <fragment
-          android:id="@+id/autocomplete_fragment"
+          android:id="@+id/acivity_auth_autocomplete_fragment"
           android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"/>
