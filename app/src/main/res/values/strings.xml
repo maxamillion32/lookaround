@@ -7,10 +7,16 @@
   <string name="navigation_drawer_close">Close navigation drawer</string>
 
   <string-array name="event_tags">
-    <item>Category...</item>
-    <item>Entertainment</item>
-    <item>Music</item>
-    <item>Promotions</item>
+    <item>Category&#8230;</item>
+    <item>Party</item>
+    <item>Festival and Music</item>
+    <item>Travel and Outdoor</item>
+    <item>Game</item>
+    <item>Promotions and Sales</item>
+    <item>Exposition</item>
+    <item>Business</item>
+    <item>Science and Tech</item>
+    <item>Seminar and Conference</item>
   </string-array>
 
 </resources>
