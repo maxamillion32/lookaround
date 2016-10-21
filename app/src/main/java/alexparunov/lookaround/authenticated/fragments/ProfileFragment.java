@@ -114,11 +114,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                   .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                      Toast.makeText(context,"Email was successfully updated",Toast.LENGTH_SHORT).show();
+                      Toast.makeText(context, "Email was successfully updated", Toast.LENGTH_SHORT).show();
                     }
                   });
-            }
-            else {
+            } else {
               Toast.makeText(context, errorMessage1, Toast.LENGTH_SHORT).show();
             }
           }
@@ -145,14 +144,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                       @Override
                       public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(context,"Password was successfully updated", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Password was successfully updated", Toast.LENGTH_SHORT).show();
                       }
                     });
               } else {
                 Toast.makeText(context, errorMessage2, Toast.LENGTH_SHORT).show();
               }
             } else {
-              Toast.makeText(context,errorMessage3,Toast.LENGTH_SHORT).show();
+              Toast.makeText(context, errorMessage3, Toast.LENGTH_SHORT).show();
             }
           }
         }

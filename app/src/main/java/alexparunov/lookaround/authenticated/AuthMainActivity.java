@@ -7,6 +7,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -24,7 +25,6 @@ import alexparunov.lookaround.authenticated.fragments.ProfileFragment;
 
 public class AuthMainActivity extends AppCompatActivity {
 
-  private CharSequence mTitle;
   private FirebaseAuth firebaseAuth;
   private DrawerLayout drawer;
 
@@ -35,9 +35,6 @@ public class AuthMainActivity extends AppCompatActivity {
     firebaseAuth = FirebaseAuth.getInstance();
 
     initializeWidgets();
-
-    setTitle("Events Nearby");
-
     Fragment mFragment = getFragmentManager().findFragmentById(R.id.activity_auth_main_drawer_layout);
     if (!(mFragment instanceof GMapFragment)) {
       FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
@@ -49,7 +46,7 @@ public class AuthMainActivity extends AppCompatActivity {
   private void initializeWidgets() {
     Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
     setSupportActionBar(toolbar);
-
+    setTitle("Events Nearby");
     drawer = (DrawerLayout) findViewById(R.id.activity_auth_main_drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
         this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -74,12 +71,11 @@ public class AuthMainActivity extends AppCompatActivity {
 
   private class NavItemSelectedListener implements NavigationView.OnNavigationItemSelectedListener {
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
       Fragment fragment = null;
 
       switch (item.getItemId()) {
         case R.id.menu_nav_profile:
-          mTitle = "Profile";
           fragment = new ProfileFragment();
           break;
 
@@ -100,6 +96,7 @@ public class AuthMainActivity extends AppCompatActivity {
         transaction.replace(R.id.activity_auth_main_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+
         if (drawer != null) {
           drawer.closeDrawer(GravityCompat.START);
         }
@@ -109,9 +106,7 @@ public class AuthMainActivity extends AppCompatActivity {
         }
         return true;
       }
-
       return false;
     }
   }
-
 }

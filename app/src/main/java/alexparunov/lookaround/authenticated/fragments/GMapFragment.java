@@ -83,9 +83,7 @@ public class GMapFragment extends MapFragment {
               mapUtils.initializeMarkers(mPlace, eventsHashMap, googleMap);
             }
           }
-
           @Override
-
           public void onCancelled(DatabaseError databaseError) {
 
           }
